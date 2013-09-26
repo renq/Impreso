@@ -1,0 +1,29 @@
+{
+    "name": "impreso/impreso",
+    "type": "library",
+    "description": "Impreso forms",
+    "keywords": ["forms"],
+    "homepage": "http://lipek.net",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Michał Lipek",
+            "email": "michal@lipek.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "replace": {
+
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-0": { "Impreso": "src/" },
+        "classmap": []
+    },
+    "minimum-stability": "dev",
+    "extra": {}
+}

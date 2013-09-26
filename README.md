@@ -1,0 +1,4 @@
+Simqel
+======
+
+Database abstraction layer
