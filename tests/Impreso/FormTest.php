@@ -5,7 +5,9 @@ namespace Tests\Impreso\Element;
 use Impreso\Container\Form;
 use Impreso\Element\Button;
 use Impreso\Element\Text;
-use Impreso\Validator\RequiredField;
+use Impreso\Element\TextArea;
+use Impreso\Validator\Email as EmailValidator;
+use Impreso\Validator\RequiredField as RequiredFieldValidator;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -49,7 +51,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $text = new Text();
         $text->setName('name');
-        $text->addValidator(new RequiredField('Required!'));
+        $text->addValidator(new RequiredFieldValidator('Required!'));
         $form->addElement($text);
 
         $this->assertFalse($form->validate());
@@ -84,7 +86,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $name = new Text();
         $name->setLabel('Your name');
         $name->setName('name');
-        $name->addValidator(new RequiredField('Required!'));
+        $name->addValidator(new RequiredFieldValidator('Required!'));
 
         $submit = new Button();
         $submit->setText('Submit form');
@@ -100,4 +102,33 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->validate());
     }
 
+    public function testStandardUsage()
+    {
+        $form = new Form();
+        $form->setMethod('post');
+        $form->setAction('/');
+
+        $name = new Text();
+        $name->setLabel('E-mail');
+        $name->setName('email');
+        $name->addValidator(new EmailValidator('Enter valid email!'));
+
+        $content = new TextArea();
+        $content->setLabel('Message');
+        $content->setName('content');
+        $content->addValidator(new RequiredFieldValidator('This field is required'));
+
+        $form
+            ->addElement($name)
+            ->addElement($content);
+
+        $this->assertFalse($form->validate());
+
+        $post = array(
+            'email' => 'michal@lipek.net',
+            'content' => 'Test message',
+        );
+        $form->populate($post);
+        $this->assertTrue($form->validate());
+    }
 }

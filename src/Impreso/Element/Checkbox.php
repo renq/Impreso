@@ -7,12 +7,10 @@
  */
 namespace Impreso\Element;
 
-use Impreso\Helper\HtmlElement;
-
-class Text extends Input
+class Checkbox extends Input
 {
     public function __construct($name = null)
     {
-        parent::__construct('text', $name);
+        parent::__construct('checkbox', $name);
     }
 }

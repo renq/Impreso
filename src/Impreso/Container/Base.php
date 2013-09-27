@@ -18,6 +18,7 @@ class Base
     {
         $element->set('id', $element->getName());
         $this->elements[$element->getName()] = $element;
+        return $this;
     }
 
     public function getElements()
@@ -36,6 +37,7 @@ class Base
             }
             $this->getElement($key)->setValue($value);
         }
+        return $this;
     }
 
     public function hasElement($key)
@@ -43,6 +45,11 @@ class Base
         return (isset($this->elements[$key]));
     }
 
+    /**
+     * @param $key
+     * @return \Impreso\Element
+     * @throws \OutOfBoundsException
+     */
     public function getElement($key)
     {
         if (!$this->hasElement($key)) {

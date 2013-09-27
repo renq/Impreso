@@ -16,7 +16,7 @@ class RequiredField extends Validator
 
     public function validate(Element $element)
     {
-        $value = $element->get('value');
+        $value = $element->getValue();
         return (is_array($value) ? (bool)count($value) : strlen($value)) ? true : false;
     }
 }

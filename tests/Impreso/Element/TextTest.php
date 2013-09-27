@@ -20,4 +20,19 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegExp('/^<input.*type="text".*>$/', $rendered);
     }
+
+    public function testValidation()
+    {
+        $element = new Text('test');
+        $validator = $this->getMockForAbstractClass('\Impreso\Validator\Validator');
+        $validator->expects($this->any())->method('validate')->will($this->returnValue(false));
+        $element->addValidator($validator);
+        $this->assertFalse($element->validate());
+
+        $element->clearValidators();
+        $validator = $this->getMockForAbstractClass('\Impreso\Validator\Validator');
+        $validator->expects($this->any())->method('validate')->will($this->returnValue(true));
+        $element->addValidator($validator);
+        $this->assertTrue($element->validate());
+    }
 }

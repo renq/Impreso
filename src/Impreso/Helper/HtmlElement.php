@@ -94,8 +94,15 @@ class HtmlElement
         $exclude = (array)$exclude;
         foreach ($this->getAttributes() as $k => $v) {
             if (!is_array($v) && !in_array($k, $exclude)) {
-                $v = $this->valueEntities($v);
-                $result .= "$k=\"$v\" ";
+                if ($v === true) {
+                    $result .= "$k ";
+                }
+                elseif ($v === false) {
+                }
+                else {
+                    $v = $this->valueEntities($v);
+                    $result .= "$k=\"$v\" ";
+                }
             }
         }
         return trim($result);

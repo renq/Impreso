@@ -24,13 +24,18 @@ abstract class Base
         ));
     }
 
-    public function setValidAttributes($list)
+    public function setValidAttributes(array $list)
     {
         if (is_array($list)) {
             $this->validAttributes = $list;
             return true;
         }
         return false;
+    }
+
+    public function addValidAttributes(array $list)
+    {
+        $this->validAttributes = array_merge($this->validAttributes, $list);
     }
 
     public function getValidAttributes()
@@ -79,6 +84,6 @@ abstract class Base
 
     public function __toString()
     {
-        return $this->show();
+        return $this->render();
     }
 }
