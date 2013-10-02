@@ -10,7 +10,7 @@ namespace Tests\Impreso\Helper;
 
 
 use Impreso\Element\Text;
-use Impreso\Validator\Email;
+use Impreso\Validator\EmailValidator;
 
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     public function testValidator()
     {
         $text = new Text('test');
-        $text->addValidator(new Email());
+        $text->addValidator(new EmailValidator());
         $text->setValue('michal@lipek.net');
         $this->assertTrue($text->validate());
 

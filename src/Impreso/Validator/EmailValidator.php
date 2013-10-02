@@ -2,10 +2,8 @@
 
 namespace Impreso\Validator;
 
-use Impreso\Element\Element;
 
-
-class Email extends Validator
+class EmailValidator extends Validator
 {
 
     public function __construct($error = '')
@@ -15,9 +13,9 @@ class Email extends Validator
         $this->setError($error);
     }
 
-    public function validate(Element $element)
+    public function validate($email)
     {
-        return $this->verifyEmail($element->getValue());
+        return $this->verifyEmail($email);
     }
 
     protected function verifyEmail($email)

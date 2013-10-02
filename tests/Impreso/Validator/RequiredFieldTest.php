@@ -9,14 +9,14 @@
 namespace Tests\Impreso\Helper;
 
 use Impreso\Element\Text;
-use Impreso\Validator\RequiredField;
+use Impreso\Validator\RequiredFieldValidator;
 
 class RequiredFieldValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidator()
     {
         $input = new Text();
-        $input->addValidator(new RequiredField('Error'));
+        $input->addValidator(new RequiredFieldValidator('Error'));
         $this->assertFalse($input->validate());
 
         $input->setValue("Shoul'd be ok");

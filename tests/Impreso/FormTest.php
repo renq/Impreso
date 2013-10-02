@@ -6,8 +6,8 @@ use Impreso\Container\Form;
 use Impreso\Element\Button;
 use Impreso\Element\Text;
 use Impreso\Element\TextArea;
-use Impreso\Validator\Email as EmailValidator;
-use Impreso\Validator\RequiredField as RequiredFieldValidator;
+use Impreso\Validator\EmailValidator as EmailValidator;
+use Impreso\Validator\RequiredFieldValidator as RequiredFieldValidator;
 
 /**
  * Created by JetBrains PhpStorm.

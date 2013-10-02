@@ -28,13 +28,13 @@ abstract class Input extends Element
         return (string)(new HtmlElement('input', null, $attributes));
     }
 
-    function setValue($value)
+    public function setValue($value)
     {
         $this->set('value', $value);
         return $this;
     }
 
-    function getValue()
+    public function getValue()
     {
         return $this->get('value');
     }

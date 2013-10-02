@@ -71,7 +71,7 @@ abstract class Element extends Base
         $this->validateErrors = array();
 
         foreach ($this->validators as $validator) {
-            $tmp = $validator->validate($this);
+            $tmp = $validator->validate($this->getValue());
             if (!$tmp) {
                 $result = false;
                 $this->addError($validator->getError());

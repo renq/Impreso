@@ -2,9 +2,8 @@
 
 namespace Impreso\Validator;
 
-use Impreso\Element\Element;
 
-class RequiredField extends Validator
+class RequiredFieldValidator extends Validator
 {
 
     public function __construct($error = '')
@@ -14,9 +13,8 @@ class RequiredField extends Validator
         $this->setError($error);
     }
 
-    public function validate(Element $element)
+    public function validate($value)
     {
-        $value = $element->getValue();
         return (is_array($value) ? (bool)count($value) : strlen($value)) ? true : false;
     }
 }

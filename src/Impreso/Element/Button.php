@@ -34,18 +34,18 @@ class Button extends Element
         return $this->text;
     }
 
-    function render()
+    public function render()
     {
         return (string)(new HtmlElement('button', $this->getText(), $this->getAttributes()));
     }
 
-    function setValue($value)
+    public function setValue($value)
     {
         $this->set('value', $value);
         return $this;
     }
 
-    function getValue()
+    public function getValue()
     {
         return $this->get('value');
     }

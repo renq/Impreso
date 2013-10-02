@@ -2,8 +2,6 @@
 
 namespace Impreso\Validator;
 
-use Impreso\Element\Element;
-
 abstract class Validator
 {
 
@@ -24,5 +22,5 @@ abstract class Validator
         $this->error = $message;
     }
 
-    abstract public function validate(Element $element);
+    abstract public function validate($value);
 }
