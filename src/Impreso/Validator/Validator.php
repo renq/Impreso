@@ -22,5 +22,9 @@ abstract class Validator
         $this->error = $message;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     abstract public function validate($value);
 }
