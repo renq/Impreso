@@ -28,7 +28,6 @@ class AF_AnyOfValidator extends AF_Validator
         return $result;
     }
 
-
 }
 
 
