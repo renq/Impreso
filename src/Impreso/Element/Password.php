@@ -7,10 +7,10 @@
  */
 namespace Impreso\Element;
 
-class Text extends Input
+class Password extends Input
 {
     public function __construct($name = null)
     {
-        parent::__construct('text', $name);
+        parent::__construct('password', $name);
     }
 }

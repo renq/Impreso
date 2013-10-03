@@ -8,7 +8,6 @@
 
 namespace Impreso\Element;
 
-
 use Impreso\Helper\HtmlElement;
 
 class Button extends Element
