@@ -6,7 +6,7 @@
  * Time: 10:25
  */
 
-namespace Tests\Impreso\Helper;
+namespace Tests\Impreso\Validator;
 
 
 use Impreso\Validator\GreaterOrEqualThanValidator;

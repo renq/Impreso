@@ -6,7 +6,7 @@
  * Time: 14:16
  */
 
-namespace Tests\Impreso\Helper;
+namespace Tests\Impreso\Validator;
 
 
 use Impreso\Element\Text;

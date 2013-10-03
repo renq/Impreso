@@ -6,7 +6,7 @@
  * Time: 17:01
  */
 
-namespace Tests\Impreso\Helper;
+namespace Tests\Impreso\Validator;
 
 
 use Impreso\Validator\RegexValidator;

@@ -6,7 +6,7 @@
  * Time: 15:39
  */
 
-namespace Tests\Impreso\Helper;
+namespace Tests\Impreso\Validator;
 
 use Impreso\Element\Text;
 use Impreso\Validator\RequiredFieldValidator;
