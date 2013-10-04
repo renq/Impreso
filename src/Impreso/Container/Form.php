@@ -8,6 +8,8 @@
 
 namespace Impreso\Container;
 
+use Impreso\Helper\HtmlElement;
+
 class Form extends Base
 {
 
@@ -86,5 +88,17 @@ class Form extends Base
         $resultCustom = $this->customValidator();
         $formErrors = $this->getErrors();
         return $result && $resultCustom && empty($formErrors);
+    }
+
+    public function render()
+    {
+        return new HtmlElement(
+            'form',
+            parent::render(),
+            array(
+                'method' => $this->getMethod(),
+                'action' => $this->getAction(),
+            )
+        );
     }
 }

@@ -4,8 +4,11 @@ namespace Tests\Impreso\Element;
 
 use Impreso\Container\Form;
 use Impreso\Element\Button;
+use Impreso\Element\Checkbox;
+use Impreso\Element\Hidden;
 use Impreso\Element\Text;
 use Impreso\Element\TextArea;
+use Impreso\Renderer\DivRenderer;
 use Impreso\Validator\EmailValidator as EmailValidator;
 use Impreso\Validator\RequiredFieldValidator as RequiredFieldValidator;
 
@@ -127,8 +130,45 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $post = array(
             'email' => 'michal@lipek.net',
             'content' => 'Test message',
+            'breaking' => 'bad',
         );
         $form->populate($post);
         $this->assertTrue($form->validate());
+
+        $data = $form->getData();
+        $this->assertEquals(2, count($data));
+        $this->assertArrayHasKey('email', $data);
+        $this->assertArrayHasKey('content', $data);
+        $this->assertArrayNotHasKey('breaking', $data);
+    }
+
+    public function testMoreComplicatedUsage()
+    {
+        $form = new Form();
+        $form->addElement(new Hidden('csrf'));
+        $form->addElement(new Text('name'));
+
+        $a = new Text('list[a]');
+        $form->addElement($a->set('value', 'a'));
+
+        $b = new Text('list[b]');
+        $form->addElement($b->set('value', 'b'));
+
+        $c = new Text('list[c]');
+        $form->addElement($c->set('value', 'c'));
+
+
+        $ids1 = new Checkbox('ids[]');
+        $form->addElement($ids1->set('value', 1));
+
+        $ids2 = new Checkbox('ids[]');
+        $form->addElement($ids2->set('value', 2));
+
+        $ids3 = new Checkbox('ids[]');
+        $form->addElement($ids3->set('value', 3));
+
+        $form->setRenderer(new DivRenderer());
+
+        // TODO
     }
 }

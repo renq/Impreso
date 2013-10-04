@@ -48,15 +48,21 @@ abstract class Base
         return in_array($attribute, $this->validAttributes);
     }
 
+    /**
+     * @param $attribute
+     * @param $value
+     * @return \Impreso\Element\Base
+     * @throws \InvalidArgumentException
+     */
     public function set($attribute, $value)
     {
         if (in_array($attribute, $this->validAttributes) || strpos($attribute, 'data-') === 0) {
             $this->attributes[$attribute] = $value;
-            return $this;
         }
         else {
             throw new \InvalidArgumentException("{$attribute} is not valid attribute.");
         }
+        return $this;
     }
 
     public function get($attribute)

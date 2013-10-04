@@ -8,19 +8,23 @@
 
 namespace Impreso\Container;
 
-use \Impreso\Element\Element;
+use Impreso\Renderer\Renderer;
 
 class Base
 {
     private $elements = array();
+    private $renderer;
 
-    public function addElement(Element $element)
+    public function addElement(\Impreso\Element\Base $element)
     {
         $element->set('id', $element->getName());
         $this->elements[$element->getName()] = $element;
         return $this;
     }
 
+    /**
+     * @return \Impreso\Element\Base[] array
+     */
     public function getElements()
     {
         return $this->elements;
@@ -40,6 +44,16 @@ class Base
         return $this;
     }
 
+    public function getData()
+    {
+        $result = array();
+        foreach ($this->getElements() as $k => $v) {
+            /* @var $v Base */
+            $result[$v->getName()] = $v->getValue();
+        }
+        return $result;
+    }
+
     public function hasElement($key)
     {
         return (isset($this->elements[$key]));
@@ -47,7 +61,7 @@ class Base
 
     /**
      * @param $key
-     * @return \Impreso\Element
+     * @return \Impreso\Element\Base
      * @throws \OutOfBoundsException
      */
     public function getElement($key)
@@ -56,5 +70,32 @@ class Base
             throw new \OutOfBoundsException("Element '$key' doesn't exists.");
         }
         return $this->elements[$key];
+    }
+
+    /**
+     * @param Renderer $renderer
+     */
+    public function setRenderer(Renderer $renderer)
+    {
+        $this->renderer = $renderer;
+        return $this;
+    }
+
+    /**
+     * @return Renderer
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    public function render()
+    {
+        return $this->getRenderer()->render($this);
+    }
+
+    public function __toString()
+    {
+        return (string)$this->render();
     }
 }
