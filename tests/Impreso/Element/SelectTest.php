@@ -35,4 +35,30 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\InvalidArgumentException');
         $select->setValue('breaking bad');
     }
+
+    public function testSelectWithOptgroups()
+    {
+        $select = new Select('test');
+        $select->setData(array(
+            'Animals' => array(
+                'cat' => 'Cat',
+                'dog' => 'Dog',
+                'monkey' => 'Monkey',
+                'rat' => 'Rat',
+            ),
+            'Plants' => array(
+                'lime' => 'Lime',
+                'tomato' => 'Tomato',
+                'oak' => 'Oak',
+            ),
+        ));
+
+        $this->assertContains('<optgroup label="Animals">', $select->render());
+        $this->assertContains('<optgroup label="Plants">', $select->render());
+        $this->assertContains('value="cat"', $select->render());
+        $this->assertContains('>Cat</option>', $select->render());
+
+        $select->setValue('cat');
+        $this->assertContains('selected', $select->render());
+    }
 }

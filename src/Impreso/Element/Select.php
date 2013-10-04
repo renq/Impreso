@@ -43,11 +43,28 @@ class Select extends Element
 
         $options = '';
         foreach ($this->getData() as $k => $v) {
-            $optionAttributes['value'] = $k;
-            if ($k === $this->getValue()) {
-                $optionAttributes['selected'] = true;
+            if (is_array($v)) {
+
+                $optionsGroup = new HtmlElement('optgroup', '', array(
+                    'label' => $k,
+                ));
+                foreach ($v as $k2 => $v2) {
+                    $optionAttributes['value'] = $k2;
+                    if ($k2 === $this->getValue()) {
+                        $optionAttributes['selected'] = true;
+                    }
+                    $option = new HtmlElement('option', $v2, $optionAttributes);
+                    $optionsGroup->setText($optionsGroup->getText() . $option);
+                }
+                $options .= $optionsGroup;
             }
-            $options .= (string)(new HtmlElement('option', $v, $optionAttributes));
+            else {
+                $optionAttributes['value'] = $k;
+                if ($k === $this->getValue()) {
+                    $optionAttributes['selected'] = true;
+                }
+                $options .= (string)(new HtmlElement('option', $v, $optionAttributes));
+            }
         }
 
         return (string)(new HtmlElement('select', $options, $attributes));
@@ -55,12 +72,27 @@ class Select extends Element
 
     /**
      * @param string $value
+     * @throws \InvalidArgumentException
      * @return $this
      */
     public function setValue($value)
     {
-        if (!array_key_exists($value, $this->data)) {
-            throw new \InvalidArgumentException("Key '$value' od select '{$this->getName()}' data doesn't exists!");
+        if ($this->isSimple()) {
+            if (!array_key_exists($value, $this->data)) {
+                throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' data doesn't exists!");
+            }
+        }
+        else {
+            $found = false;
+            foreach ($this->data as $v) {
+                if (array_key_exists($value, $v)) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' data doesn't exists!");
+            }
         }
         $this->value = (string)$value;
         return $this;
@@ -69,5 +101,16 @@ class Select extends Element
     public function getValue()
     {
         return $this->value;
+    }
+
+    private function isSimple()
+    {
+        if (empty($this->data)) {
+            return true;
+        }
+        if (is_array(reset($this->data))) {
+            return false;
+        }
+        return true;
     }
 }
