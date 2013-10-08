@@ -9,6 +9,8 @@
 namespace Tests\Impreso\Element;
 
 use Impreso\Element\Button;
+use Impreso\Filter\TrimFilter;
+use Impreso\Filter\UpperCaseFilter;
 
 class ButtonTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,5 +21,13 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
         $rendered = (string)$element->render();
 
         $this->assertRegExp('/^<button.*>button text<\/button>$/', $rendered);
+    }
+
+    public function testFilter()
+    {
+        $element = new Button();
+        $element->addFilter(new TrimFilter())->addFilter(new UpperCaseFilter());
+        $element->setValue(' Click   this BUTTON!');
+        $this->assertEquals('CLICK   THIS BUTTON!', $element->getValue());
     }
 }

@@ -9,6 +9,8 @@
 namespace Tests\Impreso\Element;
 
 use Impreso\Element\Text;
+use Impreso\Filter\TrimFilter;
+use Impreso\Filter\UpperCaseFilter;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,5 +36,14 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $validator->expects($this->any())->method('validate')->will($this->returnValue(true));
         $element->addValidator($validator);
         $this->assertTrue($element->validate());
+    }
+
+    public function testFilter()
+    {
+        $element = new Text();
+        $element->addFilter(new TrimFilter());
+        $element->addFilter(new UpperCaseFilter());
+        $element->setValue(' Guttenberg ');
+        $this->assertEquals('GUTTENBERG', $element->getValue());
     }
 }

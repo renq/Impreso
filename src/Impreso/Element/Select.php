@@ -100,7 +100,9 @@ class Select extends Element
 
     public function getValue()
     {
-        return $this->value;
+        return $this->filter(
+            $this->value
+        );
     }
 
     private function isSimple()

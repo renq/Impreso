@@ -9,6 +9,8 @@
 namespace Tests\Impreso\Element;
 
 use Impreso\Element\TextArea;
+use Impreso\Filter\TrimFilter;
+use Impreso\Filter\UpperCaseFilter;
 
 class TextAreaTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,5 +24,13 @@ class TextAreaTest extends \PHPUnit_Framework_TestCase
 
         $element->setValue('xyz');
         $this->assertRegExp('/^<textarea.*value="abcd".*>xyz<\/textarea>$/', (string)$element);
+    }
+
+    public function testFilter()
+    {
+        $element = new TextArea();
+        $element->addFilter(new TrimFilter())->addFilter(new UpperCaseFilter());
+        $element->setValue('  Python ');
+        $this->assertEquals('PYTHON', $element->getValue());
     }
 }

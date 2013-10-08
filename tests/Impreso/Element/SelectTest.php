@@ -10,6 +10,8 @@ namespace Tests\Impreso\Element;
 
 
 use Impreso\Element\Select;
+use Impreso\Filter\TrimFilter;
+use Impreso\Filter\UpperCaseFilter;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,5 +62,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $select->setValue('cat');
         $this->assertContains('selected', $select->render());
+    }
+
+    public function testFilter()
+    {
+        $element = new Select();
+        $element->addFilter(new TrimFilter())->addFilter(new UpperCaseFilter());
+        $element->setData(array(
+            ' Python' => ' The Best Language ',
+            ' Perl   ' => ' Omg :) ',
+        ));
+        $element->setValue(' Python');
+        $this->assertEquals('PYTHON', $element->getValue());
     }
 }

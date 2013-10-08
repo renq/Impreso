@@ -9,6 +9,7 @@
 namespace Impreso\Element;
 
 
+use Impreso\Filter\Filter;
 use Impreso\Validator\Validator;
 
 abstract class Element extends Base
@@ -18,6 +19,7 @@ abstract class Element extends Base
     private $validateErrors = array();
     private $label;
     private $validators = array();
+    private $filters = array();
 
     public function __construct($name = null)
     {
@@ -61,6 +63,42 @@ abstract class Element extends Base
     {
         $this->validators = array();
         return $this;
+    }
+
+    /**
+     * @param Filter $filter
+     * @return $this
+     */
+    public function addFilter(Filter $filter)
+    {
+        $this->filters[] = $filter;
+        return $this;
+    }
+
+    /**
+     * @return Filter[]
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearFilters()
+    {
+        $this->filters = array();
+        return $this;
+    }
+
+    protected function filter($value)
+    {
+        $result = $value;
+        foreach ($this->getFilters() as $filter) {
+            $result = $filter->filter($result);
+        }
+        return $result;
     }
 
     public function validate()

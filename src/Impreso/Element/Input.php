@@ -36,6 +36,8 @@ abstract class Input extends Element
 
     public function getValue()
     {
-        return $this->get('value');
+        return $this->filter(
+            $this->get('value')
+        );
     }
 }
