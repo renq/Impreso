@@ -169,6 +169,66 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $form->setRenderer(new DivRenderer());
 
-        // TODO
+        $html = (string)$form;
+
+        $this->assertTrue(substr_count($html, 'name="list[') == 3);
+        $this->assertTrue(substr_count($html, 'name="ids[]"') == 3);
+
+        $data = $form->getData();
+        // list
+        $this->assertTrue(is_array($data['list']));
+        $this->assertArrayHasKey('a', $data['list']);
+        $this->assertArrayHasKey('b', $data['list']);
+        $this->assertArrayHasKey('c', $data['list']);
+        $this->assertCount(3, $data['list']);
+
+        $this->assertEquals('a', $data['list']['a']);
+        $this->assertEquals('b', $data['list']['b']);
+        $this->assertEquals('c', $data['list']['c']);
+
+        // ids
+        $this->assertTrue(is_array($data['ids']));
+        $this->assertArrayHasKey(0, $data['ids']);
+        $this->assertArrayHasKey(1, $data['ids']);
+        $this->assertArrayHasKey(2, $data['ids']);
+        $this->assertCount(3, $data['ids']);
+        $this->assertEquals($data['ids'], array(0 => 1, 1 => 2, 2 => 3));
+
+        $newData = array(
+            'csrf' => 'omg hi',
+            'name' => 'doge',
+            'list' => array(
+                'a' => 'wow',
+                'b' => 'cool',
+                'c' => 'so hip',
+            ),
+            'ids' => array(11, 12, 13, 14), // 4 elements, instead of 3
+        );
+        $form->populate($newData);
+
+        // die( urldecode(http_build_query($newData) ));
+
+
+        // list
+        $data = $form->getData();
+
+        $this->assertEquals('omg hi', $data['csrf']);
+        $this->assertTrue(is_array($data['list']));
+        $this->assertArrayHasKey('a', $data['list']);
+        $this->assertArrayHasKey('b', $data['list']);
+        $this->assertArrayHasKey('c', $data['list']);
+        $this->assertCount(3, $data['list']);
+
+        $this->assertEquals('wow', $data['list']['a']);
+        $this->assertEquals('cool', $data['list']['b']);
+        $this->assertEquals('so hip', $data['list']['c']);
+
+        // ids
+        $this->assertTrue(is_array($data['ids']));
+        $this->assertArrayHasKey(0, $data['ids']);
+        $this->assertArrayHasKey(1, $data['ids']);
+        $this->assertArrayHasKey(2, $data['ids']);
+        $this->assertCount(3, $data['ids']);
+        $this->assertEquals($data['ids'], array(0 => 11, 1 => 12, 2 => 13));
     }
 }

@@ -14,6 +14,7 @@ abstract class Base
     private $validAttributes = array();
     private $attributes = array();
     private $name;
+    private $id;
 
     public function __construct()
     {
@@ -86,6 +87,26 @@ abstract class Base
     {
         $this->name = $name;
         $this->set('name', $name);
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        $this->set('id', $id);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function __toString()

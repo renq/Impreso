@@ -17,8 +17,10 @@ class Base
 
     public function addElement(\Impreso\Element\Base $element)
     {
-        $element->set('id', $element->getName());
-        $this->elements[$element->getName()] = $element;
+        if (!$element->getId()) {
+            $element->setId($this->stringToId($element->getName()));
+        }
+        $this->elements[$element->getId()] = $element;
         return $this;
     }
 
@@ -32,7 +34,21 @@ class Base
 
     public function populate(array $data, $strict = false)
     {
-        foreach ($data as $key => $value) {
+        $rows = explode('&', http_build_query($data));
+        foreach ($rows as $row) {
+            list($key, $value) = array_map('urldecode', explode('=', $row));
+            $elements = $this->getElementsByName($key);
+            if (empty($elements) && $strict) {
+                throw new \OutOfBoundsException("Element '$key' doesn't exists in form.");
+            }
+            foreach ($elements as $element) {
+                /* @var $element \Impreso\Element\Element */
+                $element->setValue($value);
+            }
+        }
+        return $this;
+        /*
+        foreach ($data as $$value) {
             if (!$this->hasElement($key)) {
                 if ($strict) {
                     throw new \OutOfBoundsException("Element '$key' doesn't exists in form.");
@@ -42,38 +58,75 @@ class Base
             $this->getElement($key)->setValue($value);
         }
         return $this;
+        */
     }
 
     public function getData()
     {
         $result = array();
-        foreach ($this->getElements() as $k => $v) {
-            /* @var $v Base */
-            $result[$v->getName()] = $v->getValue();
+        $tmp = array();
+        foreach ($this->getElements() as $element) {
+            /* @var $element \Impreso\Element\Base */
+            $tmp[] = urlencode($element->getName()).'='.urlencode($element->getValue());
         }
+        parse_str(implode('&', $tmp), $result);
         return $result;
     }
 
-    public function hasElement($key)
+    public function hasElement($id)
     {
-        return (isset($this->elements[$key]));
+        return (isset($this->elements[$id]));
     }
 
     /**
-     * @param $key
+     * @param $name
+     * @return \Impreso\Element\Base[]
+     */
+    public function getElementsByName($name)
+    {
+        $result = array();
+        foreach ($this->getElements() as $element) {
+            if ($element->getName() == $name) {
+                $result[] = $element;
+            }
+        }
+
+        // try find arrays
+        if (empty($result)) {
+            if (preg_match('/\[([0-9]+)\]$/', $name, $matches)) {
+                $index = (int)$matches[1];
+                $elementArrayName = str_replace("[$index]", '[]', $element->getName());
+                $arrayElements = array();
+                foreach ($this->getElements() as $element) {
+                    if ($element->getName() == $elementArrayName) {
+                        $arrayElements[] = $element;
+                    }
+                }
+                if (isset($arrayElements[$index])) {
+                    $result[] = $arrayElements[$index];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $id
      * @return \Impreso\Element\Base
      * @throws \OutOfBoundsException
      */
-    public function getElement($key)
+    public function getElement($id)
     {
-        if (!$this->hasElement($key)) {
-            throw new \OutOfBoundsException("Element '$key' doesn't exists.");
+        if (!$this->hasElement($id)) {
+            throw new \OutOfBoundsException("Element '$id' doesn't exists.");
         }
-        return $this->elements[$key];
+        return $this->elements[$id];
     }
 
     /**
      * @param Renderer $renderer
+     * @return $this
      */
     public function setRenderer(Renderer $renderer)
     {
@@ -97,5 +150,16 @@ class Base
     public function __toString()
     {
         return (string)$this->render();
+    }
+
+    protected function stringToId($string){
+        $id = preg_replace('/[^0-9a-z_-]/', '', $string);
+        $num = 0;
+        $result = $id;
+        while ($this->hasElement($result)) {
+            $num++;
+            $result = $id . $num;
+        }
+        return $result;
     }
 }

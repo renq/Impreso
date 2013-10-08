@@ -55,7 +55,8 @@ class StringLengthValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($v2->validate(''));
     }
 
-    public function testThrowingException() {
+    public function testThrowingException()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         $v = new StringLengthValidator('error');
         $v->setMinLength('23');

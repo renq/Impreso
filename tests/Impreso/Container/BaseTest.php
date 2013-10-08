@@ -45,4 +45,31 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\OutOfBoundsException');
         $this->assertTrue($base->getElement('elephant'));
     }
+
+    public function testMultipleFields()
+    {
+        /* @var $base Base */
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $base->addElement(new Text('multipla'));
+        $base->addElement(new Text('multipla'));
+        $base->addElement(new Text('multipla'));
+
+        $base->addElement(new Text('juke[1]'));
+        $base->addElement(new Text('juke[2]'));
+
+        $base->addElement(new Text('aztec[]'));
+        $base->addElement(new Text('aztec[]'));
+        $base->addElement(new Text('aztec[]'));
+        $base->addElement(new Text('aztec[]'));
+
+        $this->assertCount(3, $base->getElementsByName('multipla'));
+        $this->assertNotCount(2, $base->getElementsByName('juke'));
+        $this->assertCount(4, $base->getElementsByName('aztec[]'));
+
+        $multiplas = $base->getElementsByName('multipla');
+        $multipla1 = array_shift($multiplas);
+        $multipla2 = array_shift($multiplas);
+
+        $this->assertNotEquals($multipla1->getId(), $multipla2->getId());
+    }
 }
