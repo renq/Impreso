@@ -20,7 +20,7 @@ class DivRenderer implements Renderer
             else {
                 $label = '';
                 if (strlen($element->getLabel())) {
-                    $label = "<label for=\"{$element->id}\">{$element->getLabel()}</label>";
+                    $label = "<label for=\"{$element->getId()}\">{$element->getLabel()}</label>";
                 }
                 $errorList = '';
                 $errors = $element->getErrors();

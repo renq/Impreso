@@ -1,15 +1,10 @@
-Impreso
-=======
-
-Impreso ("Form" en español o esperanto) is form library.
-
-# Usage
-
-This is a basic example of using Impreso. There are quite a lot of code.
-The library will have simpler (and faster) interface to create forms, but at this moment, this element of library does not yet exists.
-
-```php
 <?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: Michał Lipek
+ * Date: 08.10.13
+ * Time: 15:10
+ */
 
 use Impreso\Container\Form;
 use Impreso\Element\Button;
@@ -71,10 +66,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 echo $form;
-```
-
-## Alternatives
-
-- [ZF2 Form Component](https://github.com/zendframework/zf2/tree/master/library/Zend/Form)
-- [Aura.Input](http://auraphp.com/packages/Aura.Input/)
-- [Symfony2 Forms](http://symfony.com/doc/current/book/forms.html)
