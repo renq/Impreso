@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Impreso\Element;
+namespace Tests\Impreso;
 
 use Impreso\Container\Form;
 use Impreso\Element\Button;
@@ -227,10 +227,5 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(2, $data['ids']);
         $this->assertCount(3, $data['ids']);
         $this->assertEquals($data['ids'], array(0 => 11, 1 => 12, 2 => 13));
-    }
-
-    public function testFormWithFilters()
-    {
-
     }
 }

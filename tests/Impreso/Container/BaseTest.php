@@ -72,4 +72,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEquals($multipla1->getId(), $multipla2->getId());
     }
+
+    public function testNoRenderer()
+    {
+        $this->setExpectedException('\UnexpectedValueException');
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $base->render();
+    }
 }

@@ -4,13 +4,11 @@
 class AF_PasswordCharsValidator extends AF_Validator
 {
 
-
     private $numberOfBigLetters;
     private $numberOfSmallLetters;
     private $numberOfDigits;
     private $numberOfSpecialChars;
     private $element;
-
 
     public function __construct($error = '', $numbersOfSmallLetters = 1, $numberOfBigLetters = 1, $numberOfDigits = 1, $numberOfSpecialChars = 0)
     {
@@ -24,37 +22,31 @@ class AF_PasswordCharsValidator extends AF_Validator
         $this->numberOfSpecialChars = $numberOfSpecialChars;
     }
 
-
     public function validate(AF_Element $element)
     {
         $this->element = $element;
         return $this->checkBigLetters() && $this->checkSmallLetters() && $this->checkDigits() && $this->checkSpecialChars();
     }
 
-
     private function checkBigLetters()
     {
         return $this->check('/[A-Z]/', $this->numberOfBigLetters);
     }
-
 
     private function checkSmallLetters()
     {
         return $this->check('/[a-z]/', $this->numberOfSmallLetters);
     }
 
-
     private function checkDigits()
     {
         return $this->check('/[0-9]/', $this->numberOfDigits);
     }
 
-
     private function checkSpecialChars()
     {
         return $this->check('/[^A-Z0-9a-z]/', $this->numberOfSpecialChars);
     }
-
 
     private function check($regex, $numberOf)
     {
@@ -69,8 +61,4 @@ class AF_PasswordCharsValidator extends AF_Validator
         }
         return false;
     }
-
-
 }
-
-

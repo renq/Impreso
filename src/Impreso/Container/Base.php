@@ -47,18 +47,6 @@ class Base
             }
         }
         return $this;
-        /*
-        foreach ($data as $$value) {
-            if (!$this->hasElement($key)) {
-                if ($strict) {
-                    throw new \OutOfBoundsException("Element '$key' doesn't exists in form.");
-                }
-                continue;
-            }
-            $this->getElement($key)->setValue($value);
-        }
-        return $this;
-        */
     }
 
     public function getData()
@@ -144,12 +132,21 @@ class Base
 
     public function render()
     {
+        if (!$this->getRenderer() instanceof Renderer) {
+            throw new \UnexpectedValueException('No renderer. Set renderer first using setRenderer() method.');
+        }
         return $this->getRenderer()->render($this);
     }
 
     public function __toString()
     {
-        return (string)$this->render();
+        try {
+            return (string)$this->render();
+        }
+        catch (\UnexpectedValueException $e) {
+            trigger_error($e->getMessage(), E_USER_WARNING);
+            return '';
+        }
     }
 
     protected function stringToId($string){
