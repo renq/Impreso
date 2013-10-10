@@ -83,6 +83,14 @@ abstract class Element extends Base
         return $this;
     }
 
+    public function addFilters(array $filters)
+    {
+        foreach ($filters as $filter) {
+            $this->addFilter($filter);
+        }
+        return $this;
+    }
+
     /**
      * @return Filter[]
      */
@@ -155,29 +163,6 @@ abstract class Element extends Base
     public function getLabel()
     {
         return $this->label;
-    }
-
-    /**
-     * @param array $exclude
-     * @return string
-     * @deprecated
-     */
-    protected function getAttributesString($exclude = array())
-    {
-        $result = '';
-        $exclude = (array)$exclude;
-        foreach ($this->getAttributes() as $k => $v) {
-            if (!is_array($v) && !in_array($k, $exclude)) {
-                $v = $this->valueEntities($v);
-                $result .= "$k=\"$v\" ";
-            }
-        }
-        return trim($result);
-    }
-
-    protected function valueEntities($text)
-    {
-        return htmlentities($text, ENT_COMPAT, 'UTF-8');
     }
 
     abstract function render();

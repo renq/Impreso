@@ -32,6 +32,24 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($base->hasElement('pork'));
 
         $this->assertFalse($base->hasElement('elephant'));
+
+        $data = array(
+            'kitty' => 'Loona',
+            'cat' => 'Maru~',
+            'squirrel' => 'The red',
+        );
+        $base->populate($data);
+
+        $this->assertEquals('Loona', $base->getElement('kitty')->getValue());
+        $this->assertEquals('Maru~', $base->getElement('cat')->getValue());
+        $this->assertEquals('', $base->getElement('pork')->getValue());
+
+        $base->populate(array('pork' => 'Piggy'), true);
+        $this->assertEquals('Piggy', $base->getElement('pork')->getValue());
+
+        $data['porT'] = 'Ohh...';
+        $this->setExpectedException('\OutOfBoundsException');
+        $base->populate($data, true);
     }
 
     public function testAddGetElement()
@@ -78,6 +96,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\UnexpectedValueException');
         $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
         $base->render();
+    }
+
+    public function testNoRendererInToStringMethod()
+    {
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $base->addElement(new Text('ninja'));
+        $str = (string)$base;
+        $this->assertFalse(strpos($str, 'ninja'));
+        $this->assertTrue(stripos($str, 'error') !== false);
     }
 
     public function testEmptyPopulate()

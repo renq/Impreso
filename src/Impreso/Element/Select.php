@@ -108,9 +108,6 @@ class Select extends Element
 
     private function isSimple()
     {
-        if (empty($this->options)) {
-            return true;
-        }
         if (is_array(reset($this->options))) {
             return false;
         }

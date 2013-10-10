@@ -62,6 +62,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $select->setValue('cat');
         $this->assertContains('selected', $select->render());
+
+        $this->setExpectedException('\InvalidArgumentException');
+        $select->setValue('breaking bad');
     }
 
     public function testFilter()

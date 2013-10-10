@@ -19,7 +19,8 @@
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
-        "phpunit/phpcov": "*"
+        "phpunit/phpcov": "*",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-0": {

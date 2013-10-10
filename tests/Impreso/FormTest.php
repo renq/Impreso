@@ -11,6 +11,7 @@ use Impreso\Element\TextArea;
 use Impreso\Renderer\DivRenderer;
 use Impreso\Validator\EmailValidator;
 use Impreso\Validator\RequiredValidator;
+use Impreso\Validator\StringLengthValidator;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -54,7 +55,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $text = new Text();
         $text->setName('name');
-        $text->addValidator(new RequiredValidator('Required!'));
+        $text->addValidators(array(
+                new RequiredValidator('Required!'),
+                new StringLengthValidator('Too short!', 2),
+            )
+        );
         $form->addElement($text);
 
         $this->assertFalse($form->validate());

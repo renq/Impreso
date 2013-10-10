@@ -40,4 +40,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->populate(array('repeat' => 'ABCdef0123!@#'));
         $this->assertTrue($form->validate());
     }
+
+    public function testErrors()
+    {
+        $form = new Form();
+        $form->addError('abc');
+        $form->addError('xyz');
+        $this->assertEquals(array('abc', 'xyz'), $form->getErrors());
+    }
 }

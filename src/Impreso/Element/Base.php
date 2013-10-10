@@ -27,11 +27,8 @@ abstract class Base
 
     public function setValidAttributes(array $list)
     {
-        if (is_array($list)) {
-            $this->validAttributes = $list;
-            return true;
-        }
-        return false;
+        $this->validAttributes = $list;
+        return $this;
     }
 
     public function addValidAttributes(array $list)

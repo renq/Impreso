@@ -145,8 +145,7 @@ class Base extends ElementBase
             return (string)$this->render();
         }
         catch (\UnexpectedValueException $e) {
-            trigger_error($e->getMessage(), E_USER_WARNING);
-            return '';
+            return 'ERROR (Exception): ' . $e->getMessage();
         }
     }
 
