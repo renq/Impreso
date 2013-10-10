@@ -1,7 +1,17 @@
 language: php
-before_script:
-  - composer install
+
 php:
   - "5.5"
   - "5.4"
-  - "5.3"
+  - "5.5"
+
+before_script:
+  - composer install --dev --no-interaction
+
+script:
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
+
+
+after_script:
+  - php vendor/bin/coveralls -v
