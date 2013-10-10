@@ -21,7 +21,10 @@
 
     },
     "autoload": {
-        "psr-0": { "Impreso": "src/" },
+        "psr-0": {
+            "Impreso": "src/",
+            "AF": "src/"
+        },
         "classmap": []
     },
     "minimum-stability": "dev",

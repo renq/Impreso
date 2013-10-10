@@ -47,6 +47,14 @@ abstract class Element extends Base
         return $this;
     }
 
+    public function addValidators(array $validators)
+    {
+        foreach ($validators as $validator) {
+            $this->addValidator($validator);
+        }
+        return $this;
+    }
+
     /**
      * Gets an array of validators.
      * @return array

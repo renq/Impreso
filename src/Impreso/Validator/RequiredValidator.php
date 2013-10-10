@@ -3,7 +3,7 @@
 namespace Impreso\Validator;
 
 
-class RequiredFieldValidator extends Validator
+class RequiredValidator extends Validator
 {
 
     public function __construct($error = '')

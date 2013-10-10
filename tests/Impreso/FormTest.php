@@ -9,8 +9,8 @@ use Impreso\Element\Hidden;
 use Impreso\Element\Text;
 use Impreso\Element\TextArea;
 use Impreso\Renderer\DivRenderer;
-use Impreso\Validator\EmailValidator as EmailValidator;
-use Impreso\Validator\RequiredFieldValidator as RequiredFieldValidator;
+use Impreso\Validator\EmailValidator;
+use Impreso\Validator\RequiredValidator;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -54,7 +54,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $text = new Text();
         $text->setName('name');
-        $text->addValidator(new RequiredFieldValidator('Required!'));
+        $text->addValidator(new RequiredValidator('Required!'));
         $form->addElement($text);
 
         $this->assertFalse($form->validate());
@@ -89,7 +89,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $name = new Text();
         $name->setLabel('Your name');
         $name->setName('name');
-        $name->addValidator(new RequiredFieldValidator('Required!'));
+        $name->addValidator(new RequiredValidator('Required!'));
 
         $submit = new Button();
         $submit->setText('Submit form');
@@ -119,7 +119,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $content = new TextArea();
         $content->setLabel('Message');
         $content->setName('content');
-        $content->addValidator(new RequiredFieldValidator('This field is required'));
+        $content->addValidator(new RequiredValidator('This field is required'));
 
         $form
             ->addElement($name)

@@ -9,8 +9,9 @@
 namespace Impreso\Container;
 
 use Impreso\Renderer\Renderer;
+use Impreso\Element\Base as ElementBase;
 
-class Base
+class Base extends ElementBase
 {
     private $elements = array();
     private $renderer;
@@ -34,7 +35,7 @@ class Base
 
     public function populate(array $data, $strict = false)
     {
-        $rows = explode('&', http_build_query($data));
+        $rows = empty($data) ? array() : explode('&', http_build_query($data));
         foreach ($rows as $row) {
             list($key, $value) = array_map('urldecode', explode('=', $row));
             $elements = $this->getElementsByName($key);

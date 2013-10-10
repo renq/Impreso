@@ -14,7 +14,7 @@ use Impreso\Filter\LowerCaseFilter;
 use Impreso\Filter\TrimFilter;
 use Impreso\Renderer\DivRenderer;
 use Impreso\Validator\EmailValidator;
-use Impreso\Validator\RequiredFieldValidator;
+use Impreso\Validator\RequiredValidator;
 use Impreso\Validator\StringLengthValidator;
 
 include('../vendor/autoload.php');
@@ -30,12 +30,12 @@ $form->setRenderer(new DivRenderer());
 /* Now we're creating some elements. Code is quite straightforward and no needs extra comment. */
 $name = new Text('name');
 $name->setLabel('Your name');
-$name->addValidator(new RequiredFieldValidator('What is your name?'));
+$name->addValidator(new RequiredValidator('What is your name?'));
 $name->addFilter(new TrimFilter());
 
 $email = new Text('email');
 $email->setLabel('Your e-mail');
-$email->addValidator(new RequiredFieldValidator('Do you have email? No? But you must have!'));
+$email->addValidator(new RequiredValidator('Do you have email? No? But you must have!'));
 $email->addValidator(new EmailValidator('Seriously? This is your e-mail?'));
 $email->addFilter(new LowerCaseFilter());
 

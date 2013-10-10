@@ -79,4 +79,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
         $base->render();
     }
+
+    public function testEmptyPopulate()
+    {
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $result = $base->populate(array());
+        $this->assertEquals($base, $result);
+    }
 }

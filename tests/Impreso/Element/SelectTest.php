@@ -18,7 +18,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     public function testSelect() {
         $select = new Select('test');
-        $select->setData(array(
+        $select->setOptions(array(
             'abc' => '-- select --',
             'qwe' => 'Cat',
             'zxc' => 'Dog',
@@ -41,7 +41,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testSelectWithOptgroups()
     {
         $select = new Select('test');
-        $select->setData(array(
+        $select->setOptions(array(
             'Animals' => array(
                 'cat' => 'Cat',
                 'dog' => 'Dog',
@@ -68,7 +68,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $element = new Select();
         $element->addFilter(new TrimFilter())->addFilter(new UpperCaseFilter());
-        $element->setData(array(
+        $element->setOptions(array(
             ' Python' => ' The Best Language ',
             ' Perl   ' => ' Omg :) ',
         ));
