@@ -29,6 +29,11 @@ class AF_Form extends Form
         }
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
     public function __set($name, $value)
     {
         if ($name == 'action') {
@@ -40,6 +45,10 @@ class AF_Form extends Form
         return $this->set($name, $value);
     }
 
+    /**
+     * @param $name
+     * @return string
+     */
     public function __get($name)
     {
         if ($name == 'action') {
