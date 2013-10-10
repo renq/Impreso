@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/renq/Impreso.png)](https://travis-ci.org/renq/Impreso)
+
 Impreso
 =======
 
