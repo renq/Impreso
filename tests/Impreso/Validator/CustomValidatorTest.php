@@ -45,7 +45,14 @@ class CustomValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new CustomValidator('error', 'is_array');
         $this->assertTrue($validator->validate(array(1)));
+    }
 
+    /**
+     * @requires PHP 5.4
+     */
+    public function testPHPFunctionsInArrays()
+    {
+        $validator = new CustomValidator();
         $dom = new \DOMDocument('1.0', 'utf-8');
         $element = $dom->createElement('p', 'Lorem ipsum...');
         $element->setAttribute('impreso', 'awesome');
