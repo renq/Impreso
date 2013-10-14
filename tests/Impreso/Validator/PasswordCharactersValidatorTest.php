@@ -32,4 +32,13 @@ class PasswordCharactersValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($validator->validate('abcDEF0123[=]'));
         $this->assertFalse($validator->validate('abcDEF0123[]'));
     }
+
+    public function testSettersAndGetters()
+    {
+        $validator = new PasswordCharactersValidator();
+        $this->assertEquals(1, $validator->setNumberOfDigits(1)->getNumberOfDigits());
+        $this->assertEquals(2, $validator->setNumberOfBigLetters(2)->getNumberOfBigLetters());
+        $this->assertEquals(3, $validator->setNumberOfSmallLetters(3)->getNumberOfSmallLetters());
+        $this->assertEquals(4, $validator->setNumberOfSpecialChars(4)->getNumberOfSpecialChars());
+    }
 }

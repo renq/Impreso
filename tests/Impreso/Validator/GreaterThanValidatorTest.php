@@ -30,4 +30,18 @@ class GreaterThanValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($v->validate(-1));
         $this->assertTrue($v->validate(1));
     }
+
+    public function testIncorrectComparator()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new GreaterThanValidator();
+        $v->setGreaterThan('abc');
+    }
+
+    public function testNoComparator()
+    {
+        $this->setExpectedException('\UnexpectedValueException');
+        $v = new GreaterThanValidator();
+        $v->validate(0);
+    }
 }

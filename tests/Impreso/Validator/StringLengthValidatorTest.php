@@ -61,4 +61,32 @@ class StringLengthValidatorTest extends \PHPUnit_Framework_TestCase
         $v = new StringLengthValidator('error');
         $v->setMinLength('23');
     }
+
+    public function testSetMinLengthIncorrectInput()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new StringLengthValidator();
+        $v->setMinLength('abc');
+    }
+
+    public function testSetMinLengthLessThanZero()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new StringLengthValidator();
+        $v->setMinLength(-1);
+    }
+
+    public function testSetMaxLengthIncorrectInput()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new StringLengthValidator();
+        $v->setMaxLength('def');
+    }
+
+    public function testSetMaxLengthLessThanZero()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new StringLengthValidator();
+        $v->setMaxLength(-2);
+    }
 }

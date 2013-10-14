@@ -14,6 +14,10 @@ class CustomValidator extends Validator
 
     private $function;
 
+    /**
+     * @param string $error
+     * @param callable $function
+     */
     public function __construct($error = '', $function = null)
     {
         parent::__construct($error);
