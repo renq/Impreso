@@ -40,4 +40,44 @@ class CustomValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($validator->validate(true));
         $this->assertFalse($validator->validate(false));
     }
+
+    public function testPHPFunctions()
+    {
+        $validator = new CustomValidator('error', 'is_array');
+        $this->assertTrue($validator->validate(array(1)));
+    }
+
+    /**
+     * @requires PHP 5.4
+     */
+    public function testPHPFunctionsInArrays()
+    {
+        $validator = new CustomValidator();
+        $dom = new \DOMDocument('1.0', 'utf-8');
+        $element = $dom->createElement('p', 'Lorem ipsum...');
+        $element->setAttribute('impreso', 'awesome');
+        $validator->setFunction(array($element, 'hasAttribute'));
+        $this->assertTrue($validator->validate('impreso'));
+    }
+
+    public function testIncorrectInputInConstructor()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $validator = new CustomValidator('error', 'some text');
+        $validator->validate('exception!');
+    }
+
+    public function testIncorrectInputInSetter()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $validator = new CustomValidator('error');
+        $validator->setFunction(array(1,2,3,4));
+    }
+
+    public function testNoFunction()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $validator = new CustomValidator('error');
+        $validator->validate('exception!');
+    }
 }

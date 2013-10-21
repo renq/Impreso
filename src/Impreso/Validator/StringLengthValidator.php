@@ -15,7 +15,7 @@ class StringLengthValidator extends Validator
     private $minLength = null;
     private $maxLength = null;
 
-    public function __construct($error, $minLength = null, $maxLength = null)
+    public function __construct($error = '', $minLength = null, $maxLength = null)
     {
         parent::__construct($error);
         $this->setMinLength($minLength);

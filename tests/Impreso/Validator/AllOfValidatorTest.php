@@ -44,4 +44,23 @@ class AllOfValidatorTest extends \PHPUnit_Framework_TestCase
         $v->setValidators(array($a));
         $this->assertTrue($v->validate($value));
     }
+
+    public function testIncorrectInputInConstructor()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $a = new FloatValidator();
+        $b = new \ArrayObject(array(1,2,3));
+
+        $v = new AllOfValidator('error', array($a, $b));
+    }
+
+    public function testIncorrectInputInSetter()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $a = new FloatValidator();
+        $b = new \ArrayObject(array(1,2,3));
+
+        $v = new AllOfValidator('error');
+        $v->setValidators(array($a, $b));
+    }
 }

@@ -20,7 +20,8 @@
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
         "phpunit/phpcov": "*",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "sebastian/phpcpd": "*"
     },
     "autoload": {
         "psr-0": {

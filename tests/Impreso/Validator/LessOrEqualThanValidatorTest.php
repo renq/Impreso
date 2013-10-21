@@ -30,4 +30,18 @@ class LessOrEqualThanValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($v->validate(-1));
         $this->assertFalse($v->validate(1));
     }
+
+    public function testIncorrectComparator()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $v = new LessOrEqualThanValidator();
+        $v->setLessOrEqualThan('abc');
+    }
+
+    public function testNoComparator()
+    {
+        $this->setExpectedException('\UnexpectedValueException');
+        $v = new LessOrEqualThanValidator();
+        $v->validate(0);
+    }
 }
