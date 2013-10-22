@@ -98,7 +98,7 @@ class Form extends Base
             array(
                 'method' => $this->getMethod(),
                 'action' => $this->getAction(),
-            )
+            ) + $this->getAttributes()
         );
     }
 }
