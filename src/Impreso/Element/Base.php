@@ -56,11 +56,9 @@ abstract class Base
     {
         if (in_array($attribute, $this->validAttributes) || strpos($attribute, 'data-') === 0) {
             $this->attributes[$attribute] = $value;
+            return $this;
         }
-        else {
-            throw new \InvalidArgumentException("{$attribute} is not valid attribute.");
-        }
-        return $this;
+        throw new \InvalidArgumentException("{$attribute} is not valid attribute.");
     }
 
     public function get($attribute)
@@ -69,6 +67,16 @@ abstract class Base
             return $this->attributes[$attribute];
         }
         return '';
+    }
+
+    public function has($attribute)
+    {
+        return array_key_exists($attribute, $this->attributes);
+    }
+
+    public function remove($attribute)
+    {
+        unset($this->attributes[$attribute]);
     }
 
     public function getAttributes() {

@@ -163,13 +163,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->addElement($c->set('value', 'c'));
 
 
-        $ids1 = new Checkbox('ids[]');
+        $ids1 = new Text('ids[]');
         $form->addElement($ids1->set('value', 1));
 
-        $ids2 = new Checkbox('ids[]');
+        $ids2 = new Text('ids[]');
         $form->addElement($ids2->set('value', 2));
 
-        $ids3 = new Checkbox('ids[]');
+        $ids3 = new Text('ids[]');
         $form->addElement($ids3->set('value', 3));
 
         $form->setRenderer(new DivRenderer());
@@ -243,5 +243,24 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $rendered = (string)$form->render();
 
         $this->assertContains('class="my-class"', $rendered);
+    }
+
+    public function testPopulateFormWithCheckbox()
+    {
+        $form = new Form();
+        $checkbox = new Checkbox('lang');
+        $checkbox->set('value', 'php');
+        $form->addElement($checkbox);
+
+        $data = $form->getData();
+        $this->assertEmpty($data['lang']);
+
+        $form->populate(array('lang' => 0));
+        $data = $form->getData();
+        $this->assertEmpty($data['lang']);
+
+        $form->populate(array('lang' => 1));
+        $data = $form->getData();
+        $this->assertEquals('php', $data['lang']);
     }
 }
