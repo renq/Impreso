@@ -17,6 +17,20 @@ class Form extends Base
     private $action;
     private $validateErrors = array();
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addValidAttributes(
+            array(
+                'accept-charset',
+                'autocomplete',
+                'enctype',
+                'name',
+                'novalidate',
+            )
+        );
+    }
+
     /**
      * @param string $action
      * @return $this

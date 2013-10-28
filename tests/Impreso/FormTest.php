@@ -263,4 +263,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $data = $form->getData();
         $this->assertEquals('php', $data['lang']);
     }
+
+    public function testFormParameters()
+    {
+        $form = new Form();
+        $form->set('accept-charset', 'alert()');
+        $form->set('autocomplete', 'true');
+        $form->set('enctype', 'multipart/form-data');
+        $form->set('name', 'form-name');
+        $form->set('novalidate', 'true');
+        // note: incorrect attributes throws exceptions, so if we are here, evertyhing is ok
+        $this->assertTrue(true);
+    }
 }
