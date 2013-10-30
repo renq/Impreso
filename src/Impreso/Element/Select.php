@@ -44,6 +44,7 @@ class Select extends Element
 
         $options = '';
         foreach ($this->getOptions() as $k => $v) {
+            $optionAttributes = array();
             if (is_array($v)) {
 
                 $optionsGroup = new HtmlElement('optgroup', '', array(
