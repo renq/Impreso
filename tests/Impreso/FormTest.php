@@ -6,6 +6,7 @@ use Impreso\Container\Form;
 use Impreso\Element\Button;
 use Impreso\Element\Checkbox;
 use Impreso\Element\Hidden;
+use Impreso\Element\Select;
 use Impreso\Element\Text;
 use Impreso\Element\TextArea;
 use Impreso\Renderer\DivRenderer;
@@ -274,5 +275,23 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->set('novalidate', 'true');
         // note: incorrect attributes throws exceptions, so if we are here, evertyhing is ok
         $this->assertTrue(true);
+    }
+
+    public function testSelectFormWithEmptyValueAndValueZero()
+    {
+        $form = new Form();
+        $select = new Select('select');
+        $select->setOptions(array(
+            '' => 'a',
+            0 => 'b',
+            1 => 'c',
+        ));
+        $form->addElement($select);
+        $form->populate(array('select' => 0));
+        $this->assertEquals('0', $select->getValue());
+        $this->assertEquals(0, $select->getValue());
+
+        $form->populate(array('select' => ''));
+        $this->assertEquals('', $select->getValue());
     }
 }

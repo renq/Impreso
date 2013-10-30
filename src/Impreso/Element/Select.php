@@ -51,7 +51,7 @@ class Select extends Element
                 ));
                 foreach ($v as $k2 => $v2) {
                     $optionAttributes['value'] = $k2;
-                    if ($k2 === $this->getValue()) {
+                    if ($k2 == $this->getValue()) {
                         $optionAttributes['selected'] = true;
                     }
                     $option = new HtmlElement('option', $v2, $optionAttributes);
@@ -61,7 +61,7 @@ class Select extends Element
             }
             else {
                 $optionAttributes['value'] = $k;
-                if ($k === $this->getValue()) {
+                if ($k == $this->getValue()) {
                     $optionAttributes['selected'] = true;
                 }
                 $options .= (string)(new HtmlElement('option', $v, $optionAttributes));
