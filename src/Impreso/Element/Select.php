@@ -107,6 +107,11 @@ class Select extends Element
         );
     }
 
+    function getRawValue()
+    {
+        return $this->value;
+    }
+
     private function isSimple()
     {
         if (is_array(reset($this->options))) {

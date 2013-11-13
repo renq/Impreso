@@ -29,4 +29,10 @@ class TextArea extends Element
     {
         return $this->filter($this->value);
     }
+
+    function getRawValue()
+    {
+        return $this->value;
+    }
+
 }

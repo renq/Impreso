@@ -40,4 +40,9 @@ abstract class Input extends Element
             $this->get('value')
         );
     }
+
+    public function getRawValue()
+    {
+        return $this->get('value');
+    }
 }

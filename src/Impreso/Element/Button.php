@@ -50,4 +50,10 @@ class Button extends Element
             $this->get('value')
         );
     }
+
+    function getRawValue()
+    {
+        return $this->get('value');
+    }
+
 }
