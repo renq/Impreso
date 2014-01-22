@@ -24,4 +24,20 @@ class CheckboxTest extends \PHPUnit_Framework_TestCase
         $element->set('checked', false);
         $this->assertTrue(strpos((string)$element, ' checked') === false);
     }
+
+    public function testSetData()
+    {
+        $element = new Checkbox('asdf');
+        $element->set('value', 15);
+        $this->assertFalse($element->isChecked());
+        $element->setValue(false);
+        $this->assertFalse($element->isChecked());
+        $this->assertNotContains('checked', $element->render());
+        $this->assertContains('value="15"', $element->render());
+
+        $element->setValue(true);
+        $this->assertTrue($element->isChecked());
+        $this->assertContains('checked', $element->render());
+        $this->assertContains('value="15"', $element->render());
+    }
 }

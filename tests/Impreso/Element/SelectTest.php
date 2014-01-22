@@ -16,7 +16,8 @@ use Impreso\Filter\UpperCaseFilter;
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testSelect() {
+    public function testSelect()
+    {
         $select = new Select('test');
         $select->setOptions(array(
             'abc' => '-- select --',
@@ -77,5 +78,19 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         ));
         $element->setValue(' Python');
         $this->assertEquals('PYTHON', $element->getValue());
+    }
+
+    public function testSetValue()
+    {
+        $element = new Select();
+        $element->setOptions(array(
+            '' => 'a',
+            0 => 'b',
+            1 => 'c',
+        ));
+        $element->setValue('0');
+        $this->assertEquals(0, $element->getValue());
+        $element->setValue('');
+        $this->assertEquals('', $element->getValue());
     }
 }

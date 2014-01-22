@@ -13,4 +13,19 @@ class Checkbox extends Input
     {
         parent::__construct('checkbox', $name);
     }
+
+    public function isChecked()
+    {
+        return (bool)$this->get('checked');
+    }
+
+    public function setValue($value)
+    {
+        $this->set('checked', (bool)$value);
+    }
+
+    public function getValue()
+    {
+        return $this->isChecked() ? $this->get('value') : '';
+    }
 }

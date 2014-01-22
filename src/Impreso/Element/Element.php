@@ -170,4 +170,6 @@ abstract class Element extends Base
     abstract function setValue($value);
 
     abstract function getValue();
+
+    abstract function getRawValue();
 }

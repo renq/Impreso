@@ -6,6 +6,7 @@ use Impreso\Container\Form;
 use Impreso\Element\Button;
 use Impreso\Element\Checkbox;
 use Impreso\Element\Hidden;
+use Impreso\Element\Select;
 use Impreso\Element\Text;
 use Impreso\Element\TextArea;
 use Impreso\Renderer\DivRenderer;
@@ -163,13 +164,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->addElement($c->set('value', 'c'));
 
 
-        $ids1 = new Checkbox('ids[]');
+        $ids1 = new Text('ids[]');
         $form->addElement($ids1->set('value', 1));
 
-        $ids2 = new Checkbox('ids[]');
+        $ids2 = new Text('ids[]');
         $form->addElement($ids2->set('value', 2));
 
-        $ids3 = new Checkbox('ids[]');
+        $ids3 = new Text('ids[]');
         $form->addElement($ids3->set('value', 3));
 
         $form->setRenderer(new DivRenderer());
@@ -232,5 +233,65 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(2, $data['ids']);
         $this->assertCount(3, $data['ids']);
         $this->assertEquals($data['ids'], array(0 => 11, 1 => 12, 2 => 13));
+    }
+
+    public function testFormAttributes()
+    {
+        $form = new Form();
+        $form->set('class', 'my-class');
+
+        $form->setRenderer(new DivRenderer());
+        $rendered = (string)$form->render();
+
+        $this->assertContains('class="my-class"', $rendered);
+    }
+
+    public function testPopulateFormWithCheckbox()
+    {
+        $form = new Form();
+        $checkbox = new Checkbox('lang');
+        $checkbox->set('value', 'php');
+        $form->addElement($checkbox);
+
+        $data = $form->getData();
+        $this->assertEmpty($data['lang']);
+
+        $form->populate(array('lang' => 0));
+        $data = $form->getData();
+        $this->assertEmpty($data['lang']);
+
+        $form->populate(array('lang' => 1));
+        $data = $form->getData();
+        $this->assertEquals('php', $data['lang']);
+    }
+
+    public function testFormParameters()
+    {
+        $form = new Form();
+        $form->set('accept-charset', 'alert()');
+        $form->set('autocomplete', 'true');
+        $form->set('enctype', 'multipart/form-data');
+        $form->set('name', 'form-name');
+        $form->set('novalidate', 'true');
+        // note: incorrect attributes throws exceptions, so if we are here, evertyhing is ok
+        $this->assertTrue(true);
+    }
+
+    public function testSelectFormWithEmptyValueAndValueZero()
+    {
+        $form = new Form();
+        $select = new Select('select');
+        $select->setOptions(array(
+            '' => 'a',
+            0 => 'b',
+            1 => 'c',
+        ));
+        $form->addElement($select);
+        $form->populate(array('select' => 0));
+        $this->assertEquals('0', $select->getValue());
+        $this->assertEquals(0, $select->getValue());
+
+        $form->populate(array('select' => ''));
+        $this->assertEquals('', $select->getValue());
     }
 }

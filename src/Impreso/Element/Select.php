@@ -44,6 +44,7 @@ class Select extends Element
 
         $options = '';
         foreach ($this->getOptions() as $k => $v) {
+            $optionAttributes = array();
             if (is_array($v)) {
 
                 $optionsGroup = new HtmlElement('optgroup', '', array(
@@ -51,7 +52,7 @@ class Select extends Element
                 ));
                 foreach ($v as $k2 => $v2) {
                     $optionAttributes['value'] = $k2;
-                    if ($k2 === $this->getValue()) {
+                    if ($k2 == $this->getValue()) {
                         $optionAttributes['selected'] = true;
                     }
                     $option = new HtmlElement('option', $v2, $optionAttributes);
@@ -61,7 +62,7 @@ class Select extends Element
             }
             else {
                 $optionAttributes['value'] = $k;
-                if ($k === $this->getValue()) {
+                if ($k == $this->getValue()) {
                     $optionAttributes['selected'] = true;
                 }
                 $options .= (string)(new HtmlElement('option', $v, $optionAttributes));
@@ -104,6 +105,11 @@ class Select extends Element
         return $this->filter(
             $this->value
         );
+    }
+
+    function getRawValue()
+    {
+        return $this->value;
     }
 
     private function isSimple()
