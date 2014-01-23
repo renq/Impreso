@@ -19,8 +19,9 @@ class DateValidator extends Validator
     public function validate($value)
     {
         try {
-            new \DateTime($value);
-            if (strpos($value, '0000-00-00') === 0) {
+            $dt = new \DateTime($value);
+            $errors = $dt->getLastErrors();
+            if ($errors['error_count'] + $errors['warning_count'] || strpos($value, '0000-00-00') === 0) {
                 return false;
             }
             return true;
