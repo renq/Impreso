@@ -20,6 +20,9 @@ class DateValidator extends Validator
     {
         try {
             new \DateTime($value);
+            if (strpos($value, '0000-00-00') === 0) {
+                return false;
+            }
             return true;
         } catch (\Exception $e) {
             return false;
