@@ -11,6 +11,7 @@ namespace Tests\Impreso\Container;
 
 use Impreso\Container\Form;
 use Impreso\Element\Password;
+use Impreso\Element\Submit;
 use Impreso\Validator\CustomValidator;
 use Impreso\Validator\PasswordCharactersValidator;
 
@@ -47,5 +48,20 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->addError('abc');
         $form->addError('xyz');
         $this->assertEquals(array('abc', 'xyz'), $form->getErrors());
+    }
+
+    public function testMultipleSubmits()
+    {
+        $form = new Form();
+        $form->addElement(new Submit('save'));
+        $form->addElement(new Submit('delete'));
+        $form->populate(array(
+            'save' => 'Zapisz',
+        ));
+        $result = $form->getData();
+        $this->assertArrayHasKey('save', $result);
+        $this->assertArrayHasKey('delete', $result);
+        $this->assertTrue((bool)$result['save']);
+        $this->assertFalse((bool)$result['delete']);
     }
 }
