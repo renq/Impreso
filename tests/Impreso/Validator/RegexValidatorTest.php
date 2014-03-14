@@ -28,4 +28,11 @@ class RegexValidatorTest extends \PHPUnit_Framework_TestCase
         $v = new RegexValidator('error', '/[+/');
         $v->validate('a');
     }
+
+    public function testErrorMessage()
+    {
+        $v = new RegexValidator('my message', '/[a-z]/');
+        $v->validate(" 0 1 2 ");
+        $this->assertEquals('my message', $v->getError());
+    }
 }

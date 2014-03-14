@@ -16,6 +16,7 @@ class RegexValidator extends Validator
 
     public function __construct($error, $regex = null)
     {
+        parent::__construct($error);
         $this->setRegex($regex);
     }
 
