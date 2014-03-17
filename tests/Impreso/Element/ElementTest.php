@@ -10,6 +10,8 @@
 namespace Tests\Impreso\Element;
 
 
+use Impreso\Validator\CustomValidator;
+
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidators()
@@ -54,5 +56,26 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $element->addFilter($f4);
         $this->assertEquals(array($f4), $element->getFilters());
+    }
+
+    public function testValidatorsWhenElementIsDisabled()
+    {
+        /* @var $element \Impreso\Element\Element */
+        $element = $this->getMockForAbstractClass('\Impreso\Element\Element');
+        $v = new CustomValidator('wong', function($el) {
+            return false; // always return false
+        });
+
+        $element->addValidator($v);
+        $this->assertFalse($element->validate());
+
+        $element->set('disabled', 'disabled');
+        $this->assertTrue($element->validate());
+
+        $element->set('disabled', true);
+        $this->assertTrue($element->validate());
+
+        $element->remove('disabled');
+        $this->assertFalse($element->validate());
     }
 }

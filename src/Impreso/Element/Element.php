@@ -120,6 +120,7 @@ abstract class Element extends Base
     public function validate()
     {
         if (!$this->validate) return true;
+        if ($this->has('disabled')) return true;
 
         $result = true;
         $this->validateErrors = array();
