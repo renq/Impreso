@@ -56,6 +56,7 @@ class Base extends ElementBase
         $tmp = array();
         foreach ($this->getElements() as $element) {
             /* @var $element \Impreso\Element\Base */
+            if ($element->has('disabled')) continue;
             $tmp[] = urlencode($element->getName()).'='.urlencode($element->getValue());
         }
         parse_str(implode('&', $tmp), $result);

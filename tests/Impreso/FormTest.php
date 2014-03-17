@@ -294,4 +294,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->populate(array('select' => ''));
         $this->assertEquals('', $select->getValue());
     }
+
+    public function testFormWithInactiveElements()
+    {
+        $form = new Form();
+        $select = new Select('select');
+        $select->setOptions(array(1 => 'c',));
+        $select->setValue(1);
+        $select->set('disabled', true);
+        $form->addElement($select);
+
+        $text = new Text('text');
+        $text->setValue('ok');
+        $form->addElement($text);
+
+        $result = $form->getData();
+        $this->assertArrayNotHasKey('select', $result);
+        $this->assertArrayHasKey('text', $result);
+    }
 }
