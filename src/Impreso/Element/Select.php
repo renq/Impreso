@@ -36,6 +36,7 @@ class Select extends Element
     public function __construct($name = null)
     {
         parent::__construct($name);
+        $this->setValidAttributes(array_merge($this->getValidAttributes(), array('multiple')));
     }
 
     public function render()
