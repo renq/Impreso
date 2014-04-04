@@ -26,6 +26,8 @@ class Checkbox extends Input
 
     public function getValue()
     {
-        return $this->isChecked() ? $this->get('value') : '';
+        return $this->filter(
+            $this->isChecked() ? $this->get('value') : ''
+        );
     }
 }

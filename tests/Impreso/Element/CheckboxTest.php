@@ -9,6 +9,7 @@
 namespace Tests\Impreso\Element;
 
 use Impreso\Element\Checkbox;
+use Impreso\Filter\IntegerFilter;
 
 class CheckboxTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,5 +40,17 @@ class CheckboxTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($element->isChecked());
         $this->assertContains('checked', $element->render());
         $this->assertContains('value="15"', $element->render());
+    }
+
+    public function testFilter()
+    {
+        $element = new Checkbox();
+        $element->set('value', '15x');
+        $element->setValue(true);
+        $element->addFilter(new IntegerFilter());
+        $this->assertEquals(15, $element->getValue());
+
+        $element->setValue(false);
+        $this->assertEquals("0", $element->getValue());
     }
 }
