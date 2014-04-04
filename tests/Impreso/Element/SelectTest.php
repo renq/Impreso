@@ -93,4 +93,58 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $element->setValue('');
         $this->assertEquals('', $element->getValue());
     }
+
+    public function testMutliple()
+    {
+        $element = new Select();
+        $element->set('multiple', true);
+        $this->assertContains(' multiple', $element->render());
+
+        $element->setOptions(array(
+            'bran' => 'Bran',
+            'bron' => 'Bron',
+            'brienne' => 'Brienne',
+        ));
+        $element->setValue(array(
+            'bran', 'brienne',
+        ));
+        $values = $element->getValue();
+        $this->assertCount(2, $values);
+        $this->assertContains('bran', $values);
+        $this->assertContains('brienne', $values);
+    }
+
+    public function testMutlipleWithOptgroups()
+    {
+        $element = new Select();
+        $element->set('multiple', true);
+        $this->assertContains(' multiple', $element->render());
+
+        $element->setOptions(array(
+            'starks' => array(
+                'bran' => 'Bran',
+                'arya' => 'Arya',
+                'sansa' => 'Sansa',
+            ),
+            'lanisters' => array(
+                'cersei' => 'Cersei',
+                'joffrey' => 'Joffrey',
+            ),
+            'targaryen' => array(
+                'daenerys' => 'Queen of the Andals and the Rhoynar and the First Men, Lord of the Seven Kingdoms. Khaleesi of the Great Grass Sea',
+                'viserys' => 'Viserys',
+            )
+        ));
+        $element->setValue(array(
+            'sansa', 'cersei', 'daenerys',
+        ));
+        $values = $element->getValue();
+        $this->assertCount(3, $values);
+        $this->assertContains('daenerys', $values);
+        $this->assertContains('cersei', $values);
+        $this->assertContains('sansa', $values);
+
+        $html = $element->render();
+        $this->assertEquals(3, substr_count($html, 'selected'));
+    }
 }

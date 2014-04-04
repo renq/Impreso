@@ -126,6 +126,7 @@ abstract class Element extends Base
         $this->validateErrors = array();
 
         foreach ($this->validators as $validator) {
+            /* @var $validator Validator */
             $tmp = $validator->validate($this->getValue());
             if (!$tmp) {
                 $result = false;
@@ -166,11 +167,13 @@ abstract class Element extends Base
         return $this->label;
     }
 
-    abstract function render();
+    abstract public function isArrayType();
 
-    abstract function setValue($value);
+    abstract public function render();
 
-    abstract function getValue();
+    abstract public function setValue($value);
 
-    abstract function getRawValue();
+    abstract public function getValue();
+
+    abstract public function getRawValue();
 }

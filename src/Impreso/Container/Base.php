@@ -44,7 +44,14 @@ class Base extends ElementBase
             }
             foreach ($elements as $element) {
                 /* @var $element \Impreso\Element\Element */
-                $element->setValue($value);
+                if ($element->isArrayType()) {
+                    // I'm not proud of this code, but it works... TODO refactor this
+                    $element->setValue($data[substr($key, 0, -3)]);
+                    continue;
+                }
+                else {
+                    $element->setValue($value);
+                }
             }
         }
         return $this;
@@ -55,9 +62,17 @@ class Base extends ElementBase
         $result = array();
         $tmp = array();
         foreach ($this->getElements() as $element) {
-            /* @var $element \Impreso\Element\Base */
+            /* @var $element \Impreso\Element\Element */
             if ($element->has('disabled')) continue;
-            $tmp[] = urlencode($element->getName()).'='.urlencode($element->getValue());
+            $value = $element->getValue();
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $tmp[] = urlencode($element->getName()).'='.urlencode($v);
+                }
+            }
+            else {
+                $tmp[] = urlencode($element->getName()).'='.urlencode($element->getValue());
+            }
         }
         parse_str(implode('&', $tmp), $result);
         return $result;
@@ -82,7 +97,7 @@ class Base extends ElementBase
         }
 
         // try find arrays
-        if (empty($result)) {
+        if (empty($result) && isset($element)) {
             if (preg_match('/\[([0-9]+)\]$/', $name, $matches)) {
                 $index = (int)$matches[1];
                 $elementArrayName = str_replace("[$index]", '[]', $element->getName());

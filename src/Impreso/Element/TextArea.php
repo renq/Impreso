@@ -35,4 +35,8 @@ class TextArea extends Element
         return $this->value;
     }
 
+    public function isArrayType()
+    {
+        return false;
+    }
 }

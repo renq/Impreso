@@ -56,4 +56,8 @@ class Button extends Element
         return $this->get('value');
     }
 
+    public function isArrayType()
+    {
+        return false;
+    }
 }
