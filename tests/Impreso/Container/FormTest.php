@@ -11,7 +11,8 @@ namespace Tests\Impreso\Container;
 
 use Impreso\Container\Form;
 use Impreso\Element\Password;
-use Impreso\Element\Submit;
+use Impreso\Element\Select;
+use Impreso\Element\Text;
 use Impreso\Validator\CustomValidator;
 use Impreso\Validator\PasswordCharactersValidator;
 
@@ -48,5 +49,23 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->addError('abc');
         $form->addError('xyz');
         $this->assertEquals(array('abc', 'xyz'), $form->getErrors());
+    }
+
+    public function testGetElementsByName()
+    {
+        $form = new Form();
+        $select = new Select('name[]');
+        $select->setOptions(array(
+            2 => 'Bron', 10 => 'Bran', 5 => 'Brienne',
+        ));
+        $select->set('multiple', true);
+        $form->addElement($select);
+
+        $input = new Text('age');
+        $form->addElement($input);
+
+        //$this->assertEquals(array($select), $form->getElementsByName('name'));
+        $this->assertEquals(array($select), $form->getElementsByName('name[]'));
+        $this->assertEquals(array($input), $form->getElementsByName('age'));
     }
 }

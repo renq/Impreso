@@ -354,4 +354,31 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertContains(10, $names);
         $this->assertCount(2, $names);
     }
+
+    public function testPopulateFormWithMultipleSelectAndSomeOtherFields()
+    {
+        $form = new Form();
+        $select = new Select('name[]');
+        $select->setOptions(array(
+            2 => 'Bron', 10 => 'Bran', 5 => 'Brienne',
+        ));
+        $select->set('multiple', true);
+        $form->addElement($select);
+
+        $input = new Text('age');
+        $form->addElement($input);
+
+        $form->populate(array(
+            'name' => array(2, 10),
+            'age' => 15,
+        ));
+
+        $data = $form->getData();
+        $this->assertArrayHasKey('name', $data);
+        $names = $data['name'];
+        $this->assertContains(2, $names);
+        $this->assertEquals(15, $data['age']);
+        $this->assertContains(10, $names);
+        $this->assertCount(2, $names);
+    }
 }

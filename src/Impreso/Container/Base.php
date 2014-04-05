@@ -97,16 +97,17 @@ class Base extends ElementBase
         }
 
         // try find arrays
-        if (empty($result) && isset($element)) {
+        if (empty($result)) {
             if (preg_match('/\[([0-9]+)\]$/', $name, $matches)) {
                 $index = (int)$matches[1];
-                $elementArrayName = str_replace("[$index]", '[]', $element->getName());
+                $elementArrayName = str_replace("[$index]", '[]', $name);
                 $arrayElements = array();
                 foreach ($this->getElements() as $element) {
                     if ($element->getName() == $elementArrayName) {
                         $arrayElements[] = $element;
                     }
                 }
+
                 if (isset($arrayElements[$index])) {
                     $result[] = $arrayElements[$index];
                 }
