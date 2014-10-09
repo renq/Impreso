@@ -53,4 +53,10 @@ class CheckboxTest extends \PHPUnit_Framework_TestCase
         $element->setValue(false);
         $this->assertEquals("0", $element->getValue());
     }
+
+    public function testFluentInterface()
+    {
+        $element = new Checkbox('test');
+        $this->assertEquals($element, $element->setValue(1));
+    }
 }

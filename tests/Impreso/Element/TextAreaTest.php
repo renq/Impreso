@@ -33,4 +33,11 @@ class TextAreaTest extends \PHPUnit_Framework_TestCase
         $element->setValue('  Python ');
         $this->assertEquals('PYTHON', $element->getValue());
     }
+
+
+    public function testFluentInterface()
+    {
+        $element = new TextArea('test');
+        $this->assertEquals($element, $element->setValue('test'));
+    }
 }

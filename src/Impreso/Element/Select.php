@@ -120,4 +120,11 @@ class Select extends Element
         }
         return true;
     }
+
+    public function testFluentInterface()
+    {
+        $element = new Select('test');
+        $element->setOptions(array('test' => 'Test'));
+        $this->assertEquals($element, $element->setValue('test'));
+    }
 }

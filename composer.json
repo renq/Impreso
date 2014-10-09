@@ -21,7 +21,9 @@
         "satooshi/php-coveralls": "dev-master",
         "phpunit/phpcov": "*",
         "phpunit/phpunit": "*",
-        "sebastian/phpcpd": "*"
+        "sebastian/phpcpd": "*",
+        "pdepend/pdepend" : "1.1.0",
+        "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
         "psr-0": {

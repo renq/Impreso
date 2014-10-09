@@ -19,9 +19,14 @@ class Checkbox extends Input
         return (bool)$this->get('checked');
     }
 
+    /**
+     * @param $value
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->set('checked', (bool)$value);
+        return $this;
     }
 
     public function getValue()

@@ -20,9 +20,14 @@ class TextArea extends Element
         return (string)(new HtmlElement('textarea', $this->getValue(), $attributes));
     }
 
+    /**
+     * @param $value
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     public function getValue()
@@ -34,5 +39,4 @@ class TextArea extends Element
     {
         return $this->value;
     }
-
 }

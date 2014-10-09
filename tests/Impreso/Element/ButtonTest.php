@@ -30,4 +30,10 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
         $element->setValue(' Click   this BUTTON!');
         $this->assertEquals('CLICK   THIS BUTTON!', $element->getValue());
     }
+
+    public function testFluentInterface()
+    {
+        $element = new Button('test');
+        $this->assertEquals($element, $element->setValue('test'));
+    }
 }
