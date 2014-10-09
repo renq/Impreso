@@ -42,18 +42,17 @@ class Select extends Element
     public function render()
     {
         $attributes = $this->getAttributes();
-
         $options = '';
         foreach ($this->getOptions() as $k => $v) {
-            $optionAttributes = array();
-            if (is_array($v)) {
 
+            if (is_array($v)) {
                 $optionsGroup = new HtmlElement('optgroup', '', array(
                     'label' => $k,
                 ));
                 foreach ($v as $k2 => $v2) {
+                    $optionAttributes = array();
                     $optionAttributes['value'] = $k2;
-                    if ($k2 == $this->getValue()) {
+                    if ($k2 == $this->getValue() || is_array($this->getValue()) && in_array($k2, $this->getValue())) {
                         $optionAttributes['selected'] = true;
                     }
                     $option = new HtmlElement('option', $v2, $optionAttributes);
@@ -62,8 +61,9 @@ class Select extends Element
                 $options .= $optionsGroup;
             }
             else {
+                $optionAttributes = array();
                 $optionAttributes['value'] = $k;
-                if ($k == $this->getValue()) {
+                if ($k == $this->getValue() || is_array($this->getValue()) && in_array($k, $this->getValue())) {
                     $optionAttributes['selected'] = true;
                 }
                 $options .= (string)(new HtmlElement('option', $v, $optionAttributes));
@@ -80,24 +80,37 @@ class Select extends Element
      */
     public function setValue($value)
     {
-        if ($this->isSimple()) {
-            if (!array_key_exists($value, $this->options)) {
-                throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' options doesn't exists!");
-            }
+        if (is_array($value)) {
+            return $this->setValues($value);
         }
-        else {
-            $found = false;
-            foreach ($this->options as $v) {
-                if (array_key_exists($value, $v)) {
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' options doesn't exists!");
-            }
+
+        $options = $this->options;
+        if (!$this->isSimple()) {
+            $options = call_user_func_array('array_merge', $options);
         }
+
+        if (!array_key_exists($value, $options)) {
+            throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' options doesn't exists!");
+        }
+
         $this->value = (string)$value;
+        return $this;
+    }
+
+    public function setValues(array $values)
+    {
+        $options = $this->options;
+        if (!$this->isSimple()) {
+            $options = call_user_func_array('array_merge', $options);
+        }
+
+        $this->value = array();
+        foreach ($values as $value) {
+            if (!array_key_exists($value, $options)) {
+                throw new \InvalidArgumentException("Key '$value' in Impreso\\Element\\Select '{$this->getName()}' options doesn't exists!");
+            }
+            $this->value[] = $value;
+        }
         return $this;
     }
 
@@ -121,10 +134,8 @@ class Select extends Element
         return true;
     }
 
-    public function testFluentInterface()
+    public function isArrayType()
     {
-        $element = new Select('test');
-        $element->setOptions(array('test' => 'Test'));
-        $this->assertEquals($element, $element->setValue('test'));
+        return $this->has('multiple');
     }
 }

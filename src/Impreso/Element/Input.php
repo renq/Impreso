@@ -45,4 +45,9 @@ abstract class Input extends Element
     {
         return $this->get('value');
     }
+
+    public function isArrayType()
+    {
+        return false;
+    }
 }
