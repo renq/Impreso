@@ -81,12 +81,28 @@ class Form extends Base
         return true;
     }
 
-    public function addError($error) {
+    public function addError($error)
+    {
         $this->validateErrors[] = $error;
     }
 
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->validateErrors;
+    }
+
+    public function getAllErrors()
+    {
+        $result = array(
+            'errors' => $this->getErrors(),
+            'children' => array(),
+        );
+
+        foreach ($this->getElements() as $name => $element) {
+            $result['children'][$name] = $element->getErrors();
+        }
+
+        return $result;
     }
 
     public function validate()

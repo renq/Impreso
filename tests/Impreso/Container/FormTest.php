@@ -10,6 +10,7 @@ namespace Tests\Impreso\Container;
 
 
 use Impreso\Container\Form;
+use Impreso\Element\Hidden;
 use Impreso\Element\Password;
 use Impreso\Element\Select;
 use Impreso\Element\Text;
@@ -67,5 +68,37 @@ class FormTest extends \PHPUnit_Framework_TestCase
         //$this->assertEquals(array($select), $form->getElementsByName('name'));
         $this->assertEquals(array($select), $form->getElementsByName('name[]'));
         $this->assertEquals(array($input), $form->getElementsByName('age'));
+    }
+
+    public function testGetAllErrors()
+    {
+        $expectedResult = array(
+            'errors' => array(
+                'errorForm'
+            ),
+            'children' => array(
+                'foo' => array(
+                    'errorFoo1',
+                    'errorFoo2',
+                ),
+                'bar' => array(
+                    'errorBar'
+                ),
+            ),
+        );
+
+        $form = new Form();
+        $form->addError($expectedResult['errors'][0]);
+
+        $foo = new Hidden('foo');
+        $foo->addError($expectedResult['children']['foo'][0]);
+        $foo->addError($expectedResult['children']['foo'][1]);
+        $form->addElement($foo);
+
+        $bar = new Hidden('bar');
+        $bar->addError($expectedResult['children']['bar'][0]);
+        $form->addElement($bar);
+
+        $this->assertEquals($expectedResult, $form->getAllErrors());
     }
 }
