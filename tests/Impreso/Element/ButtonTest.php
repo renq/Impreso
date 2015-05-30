@@ -36,4 +36,18 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
         $element = new Button('test');
         $this->assertEquals($element, $element->setValue('test'));
     }
+
+    public function testRawValue()
+    {
+        $element = new Button();
+        $element->setValue('<span>raw value</span>');
+
+        $this->assertEquals('<span>raw value</span>', $element->getRawValue());
+    }
+
+    public function testIsArrayType()
+    {
+        $element = new Button();
+        $this->assertFalse($element->isArrayType());
+    }
 }
