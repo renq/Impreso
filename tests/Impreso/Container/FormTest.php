@@ -101,4 +101,27 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $form->getAllErrors());
     }
+
+    public function testGetAllErrorsWhenValidFieldsAreHidden()
+    {
+        $expectedResult = array(
+            'errors' => array(),
+            'children' => array(
+                'bar' => array(
+                    'errorBar'
+                ),
+            ),
+        );
+
+        $form = new Form();
+
+        $foo = new Hidden('foo');
+        $form->addElement($foo);
+
+        $bar = new Hidden('bar');
+        $bar->addError($expectedResult['children']['bar'][0]);
+        $form->addElement($bar);
+
+        $this->assertEquals($expectedResult, $form->getAllErrors(true));
+    }
 }

@@ -91,7 +91,7 @@ class Form extends Base
         return $this->validateErrors;
     }
 
-    public function getAllErrors()
+    public function getAllErrors($hideValidated = true)
     {
         $result = array(
             'errors' => $this->getErrors(),
@@ -99,7 +99,11 @@ class Form extends Base
         );
 
         foreach ($this->getElements() as $name => $element) {
-            $result['children'][$name] = $element->getErrors();
+            $errors = $element->getErrors();
+            if (empty($errors) && $hideValidated) {
+                continue;
+            }
+            $result['children'][$name] = $errors;
         }
 
         return $result;
