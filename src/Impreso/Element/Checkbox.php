@@ -25,6 +25,7 @@ class Checkbox extends Input
      */
     public function setValue($value)
     {
+        parent::setValue($value);
         $this->set('checked', (bool)$value);
         return $this;
     }

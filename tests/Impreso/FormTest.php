@@ -246,25 +246,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('class="my-class"', $rendered);
     }
 
-    public function testPopulateFormWithCheckbox()
-    {
-        $form = new Form();
-        $checkbox = new Checkbox('lang');
-        $checkbox->set('value', 'php');
-        $form->addElement($checkbox);
-
-        $data = $form->getData();
-        $this->assertEmpty($data['lang']);
-
-        $form->populate(array('lang' => 0));
-        $data = $form->getData();
-        $this->assertEmpty($data['lang']);
-
-        $form->populate(array('lang' => 1));
-        $data = $form->getData();
-        $this->assertEquals('php', $data['lang']);
-    }
-
     public function testFormParameters()
     {
         $form = new Form();
@@ -380,5 +361,47 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(15, $data['age']);
         $this->assertContains(10, $names);
         $this->assertCount(2, $names);
+    }
+
+    public function testPopulateWithCheckbox()
+    {
+        $form = new Form();
+
+        $text = new Text('name');
+        $form->addElement($text);
+
+        $checkbox = new Checkbox('agree');
+        $checkbox->setValue(1);
+        $form->addElement($checkbox);
+
+        $this->assertEquals(1, $checkbox->getValue());
+
+        // test populate checked checkbox
+        $form->populate(array(
+            'name' => 'name',
+            'agree' => 1,
+        ));
+
+        $data = $form->getData();
+        $this->assertEquals(1, $data['agree']);
+        $this->assertTrue($checkbox->isChecked());
+
+        // test populate unchecked checkbox
+        $form->populate(array(
+            'name' => 'name',
+            'agree' => 0,
+        ));
+        $data = $form->getData();
+        $this->assertFalse(!!$data['agree']);
+        $this->assertFalse($checkbox->isChecked());
+
+        // test populate with no checkbox data
+        $checkbox->setValue(1);
+        $form->populate(array(
+            'name' => 'name'
+        ));
+        $data = $form->getData();
+        $this->assertFalse(!!$data['agree']);
+        $this->assertFalse($checkbox->isChecked());
     }
 }

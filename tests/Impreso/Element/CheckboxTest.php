@@ -34,19 +34,17 @@ class CheckboxTest extends \PHPUnit_Framework_TestCase
         $element->setValue(false);
         $this->assertFalse($element->isChecked());
         $this->assertNotContains('checked', $element->render());
-        $this->assertContains('value="15"', $element->render());
+        $this->assertNotContains('value="15"', $element->render());
 
         $element->setValue(true);
         $this->assertTrue($element->isChecked());
         $this->assertContains('checked', $element->render());
-        $this->assertContains('value="15"', $element->render());
     }
 
     public function testFilter()
     {
         $element = new Checkbox();
-        $element->set('value', '15x');
-        $element->setValue(true);
+        $element->setValue('15x');
         $element->addFilter(new IntegerFilter());
         $this->assertEquals(15, $element->getValue());
 
