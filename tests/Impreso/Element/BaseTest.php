@@ -9,13 +9,11 @@
 
 namespace Tests\Impreso\Element;
 
-
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidAttributes()
     {
-        /* @var $base \Impreso\Element\Base */
-        $base = $this->getMockForAbstractClass('\Impreso\Element\Base');
+        $base = $this->getBaseMock();
         $base->setValidAttributes(array());
         $this->assertEquals(array(), $base->getValidAttributes());
 
@@ -30,8 +28,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetAttributes()
     {
-        /* @var $base \Impreso\Element\Base */
-        $base = $this->getMockForAbstractClass('\Impreso\Element\Base');
+        $base = $this->getBaseMock();
         $base->setValidAttributes(array('id', 'class'));
         $base->set('id', 'my-id');
         $base->set('class', 'my-class');
@@ -43,9 +40,38 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     public function testIncorrectAttribute()
     {
-        /* @var $base \Impreso\Element\Base */
-        $base = $this->getMockForAbstractClass('\Impreso\Element\Base');
+        $base = $this->getBaseMock();
         $this->setExpectedException('\InvalidArgumentException');
         $base->set('ugly-attr', 'wrong');
+    }
+
+    public function testFluentInterface()
+    {
+        $base = $this->getBaseMock();
+        $this->assertSame($base, $base->setValidAttributes(['none']));
+    }
+
+    public function testSetName()
+    {
+        $base = $this->getBaseMock();
+        $base->setValidAttributes(['name']);
+        $result = $base->setName('test');
+        $this->assertSame($base, $result);
+    }
+
+    public function testSetId()
+    {
+        $base = $this->getBaseMock();
+        $result = $base->setId('test');
+        $this->assertSame($base, $result);
+    }
+
+    /**
+     * @return \Impreso\Element\Base | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getBaseMock()
+    {
+        $base = $this->getMockForAbstractClass('\Impreso\Element\Base');
+        return $base;
     }
 }

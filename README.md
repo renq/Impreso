@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/renq/Impreso.png)](https://travis-ci.org/renq/Impreso)
+[![Build Status](https://travis-ci.org/renq/Impreso.svg?branch=master)](https://travis-ci.org/renq/Impreso)
 [![Coverage Status](https://coveralls.io/repos/renq/Impreso/badge.png)](https://coveralls.io/r/renq/Impreso)
 
 Impreso

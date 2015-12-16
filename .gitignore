@@ -5,3 +5,5 @@ composer.phar
 autoload.php
 /vendor/
 /temp/
+humbuglog.*
+humbug.phar*Ta

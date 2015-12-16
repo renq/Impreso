@@ -20,7 +20,7 @@
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
         "phpunit/phpcov": "*",
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "4.7",
         "sebastian/phpcpd": "*",
         "pdepend/pdepend" : "1.1.0",
         "squizlabs/php_codesniffer": "1.*"

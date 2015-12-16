@@ -11,12 +11,16 @@ namespace Impreso\Container;
 use Impreso\Renderer\Renderer;
 use Impreso\Element\Base as ElementBase;
 
+/**
+ * Class Base
+ * @package Impreso\Container
+ */
 class Base extends ElementBase
 {
     private $elements = array();
     private $renderer;
 
-    public function addElement(\Impreso\Element\Base $element)
+    public function addElement(ElementBase $element)
     {
         if (!$element->getId()) {
             $element->setId($this->stringToId($element->getName()));
@@ -26,16 +30,21 @@ class Base extends ElementBase
     }
 
     /**
-     * @return \Impreso\Element\Base[] array
+     * @return ElementBase[] array
      */
     public function getElements()
     {
         return $this->elements;
     }
 
+    /**
+     * @param array $data
+     * @param bool $strict
+     * @return $this
+     */
     public function populate(array $data, $strict = false)
     {
-        $rows = empty($data) ? array() : explode('&', http_build_query($data));
+        $rows = empty($data) ? [] : explode('&', http_build_query($data));
         foreach ($rows as $row) {
             list($key, $value) = array_map('urldecode', explode('=', $row));
             $elements = $this->getElementsByName($key);
@@ -48,8 +57,7 @@ class Base extends ElementBase
                     // I'm not proud of this code, but it works... TODO refactor this
                     $element->setValue($data[substr($key, 0, -3)]);
                     continue;
-                }
-                else {
+                } else {
                     $element->setValue($value);
                 }
             }
@@ -57,20 +65,25 @@ class Base extends ElementBase
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
-        $result = array();
-        $tmp = array();
+        $result = [];
+        $tmp = [];
         foreach ($this->getElements() as $element) {
             /* @var $element \Impreso\Element\Element */
-            if ($element->has('disabled')) continue;
+            if ($element->has('disabled')) {
+                continue;
+            }
+
             $value = $element->getValue();
             if (is_array($value)) {
                 foreach ($value as $v) {
                     $tmp[] = urlencode($element->getName()).'='.urlencode($v);
                 }
-            }
-            else {
+            } else {
                 $tmp[] = urlencode($element->getName()).'='.urlencode($element->getValue());
             }
         }
@@ -78,13 +91,17 @@ class Base extends ElementBase
         return $result;
     }
 
+    /**
+     * @param $id string
+     * @return bool
+     */
     public function hasElement($id)
     {
         return (isset($this->elements[$id]));
     }
 
     /**
-     * @param $name
+     * @param $name string
      * @return \Impreso\Element\Base[]
      */
     public function getElementsByName($name)
@@ -151,22 +168,29 @@ class Base extends ElementBase
     public function render()
     {
         if (!$this->getRenderer() instanceof Renderer) {
-            throw new \UnexpectedValueException('No renderer. Set renderer first using setRenderer() method.');
+            throw new \UnexpectedValueException('No renderer. Set renderer first by using setRenderer() method.');
         }
         return $this->getRenderer()->render($this);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         try {
             return (string)$this->render();
-        }
-        catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             return 'ERROR (Exception): ' . $e->getMessage();
         }
     }
 
-    protected function stringToId($string){
+    /**
+     * @param $string
+     * @return string
+     */
+    protected function stringToId($string)
+    {
         $id = preg_replace('/[^0-9a-z_-]/', '', $string);
         $num = 0;
         $result = $id;

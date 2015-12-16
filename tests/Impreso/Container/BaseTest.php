@@ -113,4 +113,32 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $result = $base->populate(array());
         $this->assertEquals($base, $result);
     }
+
+    public function testSetAndGetRenderer()
+    {
+        /* @var $renderer \Impreso\Renderer\Renderer | \PHPUnit_Framework_MockObject_MockObject */
+        $renderer = $this->getMockForAbstractClass('Impreso\Renderer\Renderer');
+        /* @var $base \Impreso\Container\Base | \PHPUnit_Framework_MockObject_MockObject */
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $result = $base->setRenderer($renderer);
+
+        $this->assertSame($base, $result);
+        $this->assertSame($base->getRenderer(), $renderer);
+    }
+
+    public function testSetElementId()
+    {
+        /* @var $base \Impreso\Container\Base | \PHPUnit_Framework_MockObject_MockObject */
+        $base = $this->getMockForAbstractClass('\Impreso\Container\Base');
+        $element1 = new Text('text');
+        $element2 = new Text('text');
+
+        $this->assertEmpty($element1->getId());
+
+        $base->addElement($element1);
+        $this->assertEquals('text', $element1->getId());
+
+        $base->addElement($element2);
+        $this->assertEquals('text1', $element2->getId());
+    }
 }

@@ -8,7 +8,6 @@
 
 namespace Tests\Impreso\Container;
 
-
 use Impreso\Container\Form;
 use Impreso\Element\Hidden;
 use Impreso\Element\Password;
@@ -28,13 +27,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $password2 = new Password('repeat');
         $password2->addValidator(new CustomValidator(
             'repeat error',
-            function($value) use ($password) {
+            function ($value) use ($password) {
                 return $password->getValue() == $value;
             }
         ));
 
-        $form->addElement($password)
-            ->addElement($password2);
+        $form->addElement($password);
+        $form->addElement($password2);
 
         $form->populate(array(
             'password' => 'ABCdef0123!@#',
@@ -65,7 +64,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $input = new Text('age');
         $form->addElement($input);
 
-        //$this->assertEquals(array($select), $form->getElementsByName('name'));
         $this->assertEquals(array($select), $form->getElementsByName('name[]'));
         $this->assertEquals(array($input), $form->getElementsByName('age'));
     }
@@ -123,5 +121,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form->addElement($bar);
 
         $this->assertEquals($expectedResult, $form->getAllErrors(true));
+    }
+
+    public function testFluentInterface()
+    {
+        $input = new Text('name');
+        $form = new Form();
+        $this->assertSame($form, $form->addElement($input));
     }
 }

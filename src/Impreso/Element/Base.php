@@ -8,7 +8,7 @@
 
 namespace Impreso\Element;
 
-abstract class Base
+abstract class Base implements Renderable
 {
 
     private $validAttributes = array();
@@ -79,7 +79,8 @@ abstract class Base
         unset($this->attributes[$attribute]);
     }
 
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->attributes;
     }
 
