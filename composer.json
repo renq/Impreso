@@ -11,18 +11,21 @@
             "email": "michal@lipek.net"
         }
     ],
+    "config": {
+        "bin-dir": "bin"
+    },
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.5"
     },
     "replace": {
 
     },
     "require-dev": {
-        "satooshi/php-coveralls": "dev-master",
+        "satooshi/php-coveralls": "1.*",
         "phpunit/phpcov": "*",
         "phpunit/phpunit": "*",
         "sebastian/phpcpd": "*",
-        "pdepend/pdepend" : "1.1.0",
+        "pdepend/pdepend" : "2.2.*",
         "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
